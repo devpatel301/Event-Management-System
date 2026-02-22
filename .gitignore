@@ -1,0 +1,16 @@
+Requirements.md
+done.md
+
+backend/.env
+frontend/.env
+
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+frontend/dist/
+
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+tut/
