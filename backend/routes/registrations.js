@@ -80,12 +80,16 @@ router.post('/', protect, async (req, res) => {
 
         const organizerName = registration.event.organizer ? registration.event.organizer.name : 'Felicity Team';
 
-        sendRegistrationConfirmation(
-            registration.user,
-            registration.event,
-            ticketId,
-            organizerName
-        ).catch(err => console.error('Email failed:', err));
+        try {
+            await sendRegistrationConfirmation(
+                registration.user,
+                registration.event,
+                ticketId,
+                organizerName
+            );
+        } catch (err) {
+            console.error('Email failed:', err);
+        }
 
         res.status(201).json(registration);
     } catch (error) {

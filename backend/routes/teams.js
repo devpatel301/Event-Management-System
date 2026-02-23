@@ -5,6 +5,7 @@ const Event = require('../models/Event');
 const Registration = require('../models/Registration');
 const { protect } = require('../middleware/auth');
 const crypto = require('crypto');
+const { sendRegistrationConfirmation } = require('../services/emailService');
 
 // Generate unique team code
 function generateTeamCode() {
@@ -90,13 +91,34 @@ router.post('/join', protect, async (req, res) => {
             for (const memberId of team.members) {
                 const alreadyReg = await Registration.findOne({ user: memberId, event: team.event });
                 if (!alreadyReg) {
-                    await Registration.create({
+                    const reg = await Registration.create({
                         user: memberId,
                         event: team.event,
                         ticketId: generateTicketId(),
                         status: 'Confirmed',
                         team: team._id
                     });
+
+                    // Fetch full user and event details to send email
+                    await reg.populate('user', 'firstName lastName email');
+                    await reg.populate({
+                        path: 'event',
+                        select: 'name startDate organizer',
+                        populate: { path: 'organizer', select: 'name' }
+                    });
+
+                    const organizerName = reg.event.organizer ? reg.event.organizer.name : 'Event Organizer';
+
+                    try {
+                        await sendRegistrationConfirmation(
+                            reg.user,
+                            reg.event,
+                            reg.ticketId,
+                            organizerName
+                        );
+                    } catch (err) {
+                        console.error('Email for team member failed:', err);
+                    }
                 }
             }
 
