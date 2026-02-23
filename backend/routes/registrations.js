@@ -50,8 +50,15 @@ router.post('/', protect, async (req, res) => {
             }
 
             const qty = merchandiseDetails.quantity || 1;
-            if (event.merchandiseItems[itemIndex].stock < qty) {
+            const item = event.merchandiseItems[itemIndex];
+
+            if (item.stock < qty) {
                 return res.status(400).json({ message: 'Item out of stock' });
+            }
+
+            // Enforce per-participant purchase limit
+            if (item.purchaseLimit > 0 && qty > item.purchaseLimit) {
+                return res.status(400).json({ message: `You can only purchase up to ${item.purchaseLimit} of this item` });
             }
 
             // Manual decrement
@@ -80,16 +87,12 @@ router.post('/', protect, async (req, res) => {
 
         const organizerName = registration.event.organizer ? registration.event.organizer.name : 'Felicity Team';
 
-        try {
-            await sendRegistrationConfirmation(
-                registration.user,
-                registration.event,
-                ticketId,
-                organizerName
-            );
-        } catch (err) {
-            console.error('Email failed:', err);
-        }
+        sendRegistrationConfirmation(
+            registration.user,
+            registration.event,
+            ticketId,
+            organizerName
+        ).catch(err => console.error('Email failed:', err));
 
         res.status(201).json(registration);
     } catch (error) {
@@ -103,7 +106,7 @@ router.get('/my', protect, async (req, res) => {
         const registrations = await Registration.find({ user: req.user.id })
             .populate({
                 path: 'event',
-                select: 'name type startDate endDate organizer',
+                select: 'name type startDate endDate status organizer',
                 populate: { path: 'organizer', select: 'name' }
             })
             .populate('team', 'name')

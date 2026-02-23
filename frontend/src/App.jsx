@@ -17,6 +17,7 @@ import OrgDashboard from './pages/OrgDashboard';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
 import OrgEventDetail from './pages/OrgEventDetail'; 
+import OrgFeedback from './pages/OrgFeedback';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageOrganizers from './pages/ManageOrganizers';
 import PasswordResetRequests from './pages/PasswordResetRequests'; 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/organizer/events/:id/edit" element={<ProtectedRoute allowedRoles={['organizer']}><EditEvent /></ProtectedRoute>} />
         <Route path="/organizer/events/:id" element={<ProtectedRoute allowedRoles={['organizer']}><OrgEventDetail /></ProtectedRoute>} />
         <Route path="/organizer/events/:eventId/scanner" element={<ProtectedRoute allowedRoles={['organizer']}><QRScanner /></ProtectedRoute>} />
+        <Route path="/organizer/feedback" element={<ProtectedRoute allowedRoles={['organizer']}><OrgFeedback /></ProtectedRoute>} />
 
         {/* Admin Routes */}
         <Route path="/admin/dashboard" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />

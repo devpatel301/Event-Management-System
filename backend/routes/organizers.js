@@ -6,7 +6,7 @@ const { protect } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
     try {
-        const organizers = await Organizer.find().select('-password');
+        const organizers = await Organizer.find({ archived: { $ne: true } }).select('-password');
         res.json(organizers);
     } catch (error) {
         console.error(error);
@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const organizer = await Organizer.findById(req.params.id).select('-password');
-        if (!organizer) {
+        if (!organizer || organizer.archived) {
             return res.status(404).json({ message: 'Organizer not found' });
         }
 

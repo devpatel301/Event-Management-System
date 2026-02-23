@@ -29,8 +29,8 @@ const Dashboard = () => {
         case 'Upcoming': return !isPast && reg.status !== 'Cancelled';
         case 'Normal': return reg.event.type === 'Normal' && reg.status !== 'Cancelled';
         case 'Merchandise': return reg.event.type === 'Merchandise';
-        case 'Completed': return isPast && reg.status === 'Confirmed';
-        case 'Cancelled': return reg.status === 'Cancelled' || reg.status === 'Rejected';
+        case 'Completed': return reg.event?.status === 'Completed' || (isPast && reg.status === 'Confirmed');
+        case 'Cancelled': return reg.event?.status === 'Cancelled' || reg.status === 'Cancelled' || reg.status === 'Rejected';
         default: return true;
       }
     });

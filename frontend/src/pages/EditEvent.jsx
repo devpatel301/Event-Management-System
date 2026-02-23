@@ -10,6 +10,7 @@ const EditEvent = () => {
     const [loading, setLoading] = useState(true);
     const [hasRegistrations, setHasRegistrations] = useState(false);
     const [message, setMessage] = useState({ text: '', type: '' });
+    const [originalStatus, setOriginalStatus] = useState('Draft');
 
     const [formData, setFormData] = useState({
         name: '', description: '', type: 'Normal', eligibility: 'All',
@@ -39,6 +40,7 @@ const EditEvent = () => {
                     tags: (data.tags || []).join(', '),
                     status: data.status || 'Draft'
                 });
+                setOriginalStatus(data.status || 'Draft');
                 setHasRegistrations((data.registeredCount || 0) > 0);
             }
         } catch (error) {
@@ -52,9 +54,9 @@ const EditEvent = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const isDraft = formData.status === 'Draft';
-    const isPublished = formData.status === 'Published';
-    const isOngoingOrLocked = ['Ongoing', 'Completed', 'Closed'].includes(formData.status);
+    const isDraft = originalStatus === 'Draft';
+    const isPublished = originalStatus === 'Published';
+    const isOngoingOrLocked = ['Ongoing', 'Completed', 'Closed', 'Cancelled'].includes(originalStatus);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -114,7 +116,7 @@ const EditEvent = () => {
             )}
             {isOngoingOrLocked && (
                 <div style={{ padding: '10px', backgroundColor: '#ff7676', border: '2px solid #000', marginBottom: '20px', fontWeight: 'bold' }}>
-                    <strong>Restricted:</strong> This event is {formData.status}. Only the status field can be changed.
+                    <strong>Restricted:</strong> This event is {originalStatus}. Only the status field can be changed.
                 </div>
             )}
             {hasRegistrations && (
@@ -170,10 +172,10 @@ const EditEvent = () => {
                 <div>
                     <label>Status</label>
                     <select name="status" value={formData.status} onChange={handleChange}>
-                        {formData.status === 'Draft' && <><option value="Draft">Draft</option><option value="Published">Published</option></>}
-                        {formData.status === 'Published' && <><option value="Published">Published</option><option value="Ongoing">Ongoing</option><option value="Closed">Closed</option></>}
-                        {formData.status === 'Ongoing' && <><option value="Ongoing">Ongoing</option><option value="Completed">Completed</option><option value="Closed">Closed</option></>}
-                        {(formData.status === 'Completed' || formData.status === 'Closed') && <><option value={formData.status}>{formData.status}</option><option value="Closed">Closed</option></>}
+                        {originalStatus === 'Draft' && <><option value="Draft">Draft</option><option value="Published">Published</option></>}
+                        {originalStatus === 'Published' && <><option value="Published">Published</option><option value="Ongoing">Ongoing</option><option value="Cancelled">Cancelled</option></>}
+                        {originalStatus === 'Ongoing' && <><option value="Ongoing">Ongoing</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></>}
+                        {(originalStatus === 'Completed' || originalStatus === 'Closed' || originalStatus === 'Cancelled') && <option value={originalStatus}>{originalStatus}</option>}
                     </select>
                 </div>
                 <div>

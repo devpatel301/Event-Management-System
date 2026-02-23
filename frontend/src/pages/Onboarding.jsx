@@ -14,9 +14,9 @@ const Onboarding = () => {
   const [message, setMessage] = useState('');
 
   const interestsList = [
-    'Coding', 'Design', 'Music', 'Dance', 'Photography',
-    'Literature', 'Gaming', 'Research', 'Sports', 'Robotics',
-    'AI/ML', 'Cybersecurity', 'Entrepreneurship', 'Dramatics'
+    'Coding', 'Arts', 'Music', 'Dance', 'Photography',
+    'Reading', 'Gaming', 'Research', 'Sports',
+    'AI/ML', 'Cybersec', 'Finance'
   ];
 
   useEffect(() => { fetchOrganizers(); }, []);
@@ -50,7 +50,7 @@ const Onboarding = () => {
         setMessage('Preferences saved! Redirecting...');
         setTimeout(() => navigate('/dashboard'), 1500);
       } else { setMessage('Failed to save. Try again.'); }
-    } catch (error) { setMessage('Server error.'); }
+    } catch (error) { setMessage(error); }
     finally { setLoading(false); }
   };
 
@@ -68,7 +68,6 @@ const Onboarding = () => {
   return (
     <div style={{ padding: '40px 20px', maxWidth: '700px', margin: '0 auto', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
       <h1 style={{ color: '#000' }}>Welcome, {user?.name || user?.firstName}!</h1>
-      <p style={{ color: '#000', marginBottom: '30px' }}>Step {step} of 2 — Let's personalize your experience.</p>
 
       {message && (
         <p style={{ padding: '10px', backgroundColor: message.includes('saved') ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000', marginBottom: '20px' }}>
@@ -79,7 +78,6 @@ const Onboarding = () => {
       {step === 1 && (
         <div>
           <h3 style={{ color: '#000' }}>Select Your Interests</h3>
-          <p style={{ color: '#000', marginBottom: '15px', fontSize: '0.9em' }}>Choose topics you are interested in.</p>
           
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '30px' }}>
             {interestsList.map(interest => (
@@ -89,7 +87,10 @@ const Onboarding = () => {
             ))}
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <button onClick={() => { setSelectedInterests([]); setStep(2); }} style={{ padding: '10px 24px', backgroundColor: '#f3e8ff', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em' }}>
+              Skip
+            </button>
             <button onClick={() => setStep(2)} style={{ padding: '10px 24px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
               Next: Follow Clubs →
             </button>
@@ -100,10 +101,9 @@ const Onboarding = () => {
       {step === 2 && (
         <div>
           <h3 style={{ color: '#000' }}>Follow Clubs / Organizers</h3>
-          <p style={{ color: '#000', marginBottom: '15px', fontSize: '0.9em' }}>Follow clubs to get notified about their events.</p>
 
           {organizers.length === 0 ? (
-            <p>No clubs available yet.</p>
+            <p>No clubs available yet</p>
           ) : (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '30px' }}>
               {organizers.map(org => {
@@ -131,7 +131,7 @@ const Onboarding = () => {
                 Skip
               </button>
               <button onClick={savePreferences} disabled={loading} style={{ padding: '10px 24px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
-                {loading ? 'Saving...' : 'Finish & Go to Dashboard'}
+                {loading ? 'Saving...' : 'Finish'}
               </button>
             </div>
           </div>

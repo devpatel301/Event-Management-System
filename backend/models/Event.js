@@ -35,7 +35,7 @@ const eventSchema = new mongoose.Schema({
     // Status
     status: {
         type: String,
-        enum: ['Draft', 'Published', 'Ongoing', 'Closed', 'Completed'],
+        enum: ['Draft', 'Published', 'Ongoing', 'Closed', 'Completed', 'Cancelled'],
         default: 'Draft'
     },
 
@@ -45,7 +45,8 @@ const eventSchema = new mongoose.Schema({
         price: Number,
         stock: Number,
         image: String,
-        description: String
+        description: String,
+        purchaseLimit: { type: Number, default: 0 }  // 0 = no limit
     }],
 
     // Custom Registration Form (Phase 8/10)

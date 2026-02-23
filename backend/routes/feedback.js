@@ -2,7 +2,53 @@ const express = require('express');
 const router = express.Router();
 const Feedback = require('../models/Feedback');
 const Registration = require('../models/Registration');
+const Event = require('../models/Event');
 const { protect } = require('../middleware/auth');
+
+// Get all feedback across all organizer's events (aggregated)
+router.get('/organizer/all', protect, async (req, res) => {
+    try {
+        if (req.user.role !== 'organizer') {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+
+        const events = await Event.find({ organizer: req.user.id, status: 'Completed' }).select('_id name');
+        const eventIds = events.map(e => e._id);
+        const eventMap = Object.fromEntries(events.map(e => [e._id.toString(), e.name]));
+
+        const { rating, eventId } = req.query;
+        const query = { event: { $in: eventIds } };
+        if (rating) query.rating = parseInt(rating);
+        if (eventId) query.event = eventId;
+
+        const feedbacks = await Feedback.find(query)
+            .select('rating comment createdAt event')
+            .sort('-createdAt');
+
+        const result = feedbacks.map(f => ({
+            _id: f._id,
+            rating: f.rating,
+            comment: f.comment,
+            createdAt: f.createdAt,
+            eventName: eventMap[f.event.toString()] || 'Unknown'
+        }));
+
+        // Stats
+        const total = feedbacks.length;
+        let sum = 0;
+        const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+        for (const f of feedbacks) {
+            sum += f.rating;
+            distribution[f.rating] = (distribution[f.rating] || 0) + 1;
+        }
+        const average = total > 0 ? Math.round((sum / total) * 10) / 10 : 0;
+
+        res.json({ feedbacks: result, stats: { total, average, distribution }, events });
+    } catch (err) {
+        console.error('Organizer feedback error:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 
 // Submit anonymous feedback
 router.post('/', protect, async (req, res) => {

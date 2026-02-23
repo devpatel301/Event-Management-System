@@ -174,7 +174,7 @@ const Profile = () => {
                   </select>
                 </div>
                 <div style={{ marginBottom: '10px' }}><label>Description</label><textarea name="desc" value={profile.desc || ''} onChange={handleChange} disabled={!editing} style={{ ...fieldStyle, minHeight: '80px' }} /></div>
-                <div style={{ marginBottom: '10px' }}><label>Contact Number (optional)</label><input type="text" name="contactNumber" value={profile.contactNumber || ''} onChange={handleChange} disabled={!editing} style={fieldStyle} placeholder="e.g. 9876543210" /></div>
+                <div style={{ marginBottom: '10px' }}><label>Contact (optional)</label><input type="text" name="contactNumber" value={profile.contactNumber || ''} onChange={handleChange} disabled={!editing} style={fieldStyle} /></div>
 
                 {profile.organizerId && <div style={{ marginBottom: '10px' }}><label>Organizer ID</label><input type="text" value={profile.organizerId} disabled style={{ ...disabledStyle, backgroundColor: '#fdef26' }} /></div>}
               </>

@@ -36,7 +36,7 @@ const CreateEvent = () => {
     const updateOption = (fi, oi, v) => { const u = [...customForm]; u[fi].options[oi] = v; setCustomForm(u); };
     const removeOption = (fi, oi) => { const u = [...customForm]; u[fi].options = u[fi].options.filter((_, i) => i !== oi); setCustomForm(u); };
 
-    const addMerchItem = () => { setMerchandiseItems([...merchandiseItems, { name: '', price: 0, stock: 0, description: '' }]); };
+    const addMerchItem = () => { setMerchandiseItems([...merchandiseItems, { name: '', price: 0, stock: 0, description: '', purchaseLimit: 0 }]); };
     const updateMerchItem = (i, f, v) => { const u = [...merchandiseItems]; u[i][f] = v; setMerchandiseItems(u); };
     const removeMerchItem = (i) => { setMerchandiseItems(merchandiseItems.filter((_, idx) => idx !== i)); };
 
@@ -183,6 +183,7 @@ const CreateEvent = () => {
                                     <th style={{ padding: '8px', border: '2px solid #000' }}>Item Name</th>
                                     <th style={{ padding: '8px', border: '2px solid #000', width: '100px' }}>Price</th>
                                     <th style={{ padding: '8px', border: '2px solid #000', width: '80px' }}>Stock</th>
+                                    <th style={{ padding: '8px', border: '2px solid #000', width: '90px' }}>Buy Limit</th>
                                     <th style={{ padding: '8px', border: '2px solid #000' }}>Description</th>
                                     <th style={{ padding: '8px', border: '2px solid #000', width: '40px' }}></th>
                                 </tr></thead>
@@ -190,6 +191,7 @@ const CreateEvent = () => {
                                     <tr key={i}><td style={{ padding: '4px', border: '1px solid #000' }}><input type="text" placeholder="e.g. T-Shirt" value={item.name} onChange={(e) => updateMerchItem(i, 'name', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
                                     <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" value={item.price} onChange={(e) => updateMerchItem(i, 'price', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
                                     <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" value={item.stock} onChange={(e) => updateMerchItem(i, 'stock', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" min="0" placeholder="0=no limit" value={item.purchaseLimit} onChange={(e) => updateMerchItem(i, 'purchaseLimit', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
                                     <td style={{ padding: '4px', border: '1px solid #000' }}><input type="text" value={item.description} onChange={(e) => updateMerchItem(i, 'description', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
                                     <td style={{ padding: '4px', border: '1px solid #000', textAlign: 'center' }}><button type="button" onClick={() => removeMerchItem(i)} style={{ backgroundColor: '#ff7676', border: '2px solid #000', padding: '4px 8px', cursor: 'pointer', fontWeight: 'bold' }}>X</button></td></tr>
                                 ))}</tbody>

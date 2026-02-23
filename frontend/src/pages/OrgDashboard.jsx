@@ -48,10 +48,7 @@ const OrgDashboard = () => {
     if (loading) return <div style={{ padding: '20px' }}>Loading...</div>;
 
     const statItems = [
-        { label: 'Total Events', value: events.length },
-        { label: 'Published', value: events.filter(e => e.status === 'Published').length },
-        { label: 'Ongoing', value: events.filter(e => e.status === 'Ongoing').length },
-        { label: 'Completed', value: analytics.completedEventCount },
+        { label: 'Completed Events', value: analytics.completedEventCount },
         { label: 'Registrations', value: analytics.totalRegistrations },
         { label: 'Attendance', value: analytics.totalAttended },
         { label: 'Revenue', value: `Rs. ${analytics.totalRevenue}` },
@@ -61,12 +58,18 @@ const OrgDashboard = () => {
         <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', textAlign: 'left' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                 <h1>Organizer Dashboard</h1>
-                <Link to="/organizer/events/create" style={{ padding: '10px 20px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>
-                    + Create New Event
-                </Link>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                    <Link to="/organizer/feedback" style={{ padding: '10px 20px', backgroundColor: '#f3e8ff', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>
+                        View Feedback
+                    </Link>
+                    <Link to="/organizer/events/create" style={{ padding: '10px 20px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>
+                        + Create New Event
+                    </Link>
+                </div>
             </div>
 
-            {/* Stats */}
+            {/* Completed Events Stats */}
+            <h3 style={{ marginBottom: '10px' }}>Completed Events Stats</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', marginBottom: '40px' }}>
                 {statItems.map(s => (
                     <div key={s.label} style={{ padding: '15px', border: '2px solid #000', textAlign: 'center', backgroundColor: '#f3e8ff' }}>
@@ -77,7 +80,7 @@ const OrgDashboard = () => {
             </div>
 
             {/* Events by status */}
-            {['Ongoing', 'Published', 'Draft', 'Closed', 'Completed'].map(status => {
+            {['Ongoing', 'Published', 'Draft', 'Cancelled', 'Closed', 'Completed'].map(status => {
                 const statusEvents = events.filter(e => e.status === status);
                 if (statusEvents.length === 0) return null;
                 return (

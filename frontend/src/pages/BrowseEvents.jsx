@@ -103,12 +103,11 @@ const BrowseEvents = () => {
       {trendingEvents.length > 0 && (
         <div style={{ marginBottom: '30px' }}>
           <h2 style={{ fontSize: '1.1rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            Trending Now <span style={{ fontSize: '0.75rem', fontWeight: 'normal', color: '#555' }}>top 5 in the last 24h</span>
+            Trending Now
           </h2>
           <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '8px' }}>
             {trendingEvents.map((event, i) => (
               <div key={event._id} style={{ minWidth: '220px', maxWidth: '220px', border: '2px solid #000', backgroundColor: '#fff', padding: '12px', flexShrink: 0, position: 'relative' }}>
-                <span style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: '#fdef26', border: '1px solid #000', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.75rem' }}>#{i + 1}</span>
                 <p style={{ fontWeight: 'bold', margin: '0 0 4px 0', fontSize: '0.95rem', paddingRight: '28px' }}>{event.name}</p>
                 <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: '#444' }}>{event.organizer?.name}</p>
                 <p style={{ margin: '0 0 8px 0', fontSize: '0.78rem', color: '#666' }}>{event.registeredCount || 0} registered</p>

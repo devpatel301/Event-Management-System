@@ -21,7 +21,6 @@ const AdminDashboard = () => {
 
   if (loading) return <div style={{ padding: '20px' }}>Loading Admin Dashboard...</div>;
 
-  const statColors = ['#d0b4f4', '#b3f6ff', '#c1ffca'];
   const statLabels = ['Users', 'Organizers', 'Events'];
   const statValues = [stats.users, stats.organizers, stats.events];
 
@@ -31,7 +30,7 @@ const AdminDashboard = () => {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "40px" }}>
         {statLabels.map((label, i) => (
-          <div key={label} style={{ padding: "20px", backgroundColor: statColors[i], border: "2px solid #000", textAlign: "center" }}>
+          <div key={label} style={{ padding: "20px", backgroundColor: '#b3f6ff', border: "2px solid #000", textAlign: "center" }}>
             <h3>{label}</h3>
             <p style={{ fontSize: "2.5em", margin: 0, fontWeight: 'bold' }}>{statValues[i]}</p>
           </div>

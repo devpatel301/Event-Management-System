@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
+const Organizer = require('../models/Organizer');
 const { protect } = require('../middleware/auth');
 const { sendEventCreatedNotification } = require('../services/discordService');
 
@@ -42,7 +43,9 @@ router.post('/', protect, async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const { search, type } = req.query;
-        let query = { status: { $in: ['Published', 'Ongoing'] } };
+        const archivedOrgs = await Organizer.find({ archived: true }).select('_id');
+        const archivedOrgIds = archivedOrgs.map(o => o._id);
+        let query = { status: { $in: ['Published', 'Ongoing'] }, organizer: { $nin: archivedOrgIds } };
 
 
         if (search) {
@@ -112,7 +115,9 @@ router.get('/trending', async (req, res) => {
 
         if (counts.length === 0) {
             // fallback: top 5 by real all-time registration count
-            const allEvents = await Event.find({ status: { $in: ['Published', 'Ongoing'] } })
+            const archivedOrgs2 = await Organizer.find({ archived: true }).select('_id');
+            const archivedOrgIds2 = archivedOrgs2.map(o => o._id);
+            const allEvents = await Event.find({ status: { $in: ['Published', 'Ongoing'] }, organizer: { $nin: archivedOrgIds2 } })
                 .populate('organizer', 'name category')
                 .lean();
             if (allEvents.length > 0) {
@@ -128,8 +133,10 @@ router.get('/trending', async (req, res) => {
             return res.json(allEvents.slice(0, 5));
         }
 
+        const archivedOrgs3 = await Organizer.find({ archived: true }).select('_id');
+        const archivedOrgIds3 = archivedOrgs3.map(o => o._id);
         const eventIds = counts.map(c => c._id);
-        const eventDocs = await Event.find({ _id: { $in: eventIds } }).populate('organizer', 'name category').lean();
+        const eventDocs = await Event.find({ _id: { $in: eventIds }, organizer: { $nin: archivedOrgIds3 } }).populate('organizer', 'name category').lean();
         const countMap = Object.fromEntries(counts.map(c => [c._id.toString(), c.count]));
         eventDocs.forEach(e => { e.registeredCount = countMap[e._id.toString()] || 0; });
         eventDocs.sort((a, b) => (countMap[b._id.toString()] || 0) - (countMap[a._id.toString()] || 0));
@@ -159,25 +166,24 @@ router.get('/organizer/analytics', protect, async (req, res) => {
         if (req.user.role !== 'organizer') return res.status(403).json({ message: 'Not authorized' });
         const Registration = require('../models/Registration');
 
-        const allActiveEvents = await Event.find({
+        const completedEvents = await Event.find({
             organizer: req.user.id,
-            status: { $in: ['Published', 'Ongoing', 'Completed', 'Closed'] }
+            status: 'Completed'
         });
-        const allActiveIds = allActiveEvents.map(e => e._id);
-        const completedEvents = allActiveEvents.filter(e => e.status === 'Completed');
+        const completedIds = completedEvents.map(e => e._id);
 
         let totalRegistrations = 0;
         let totalAttended = 0;
         let totalRevenue = 0;
 
-        if (allActiveIds.length > 0) {
+        if (completedIds.length > 0) {
             const stats = await Registration.aggregate([
-                { $match: { event: { $in: allActiveIds }, status: 'Confirmed' } },
+                { $match: { event: { $in: completedIds }, status: 'Confirmed' } },
                 { $group: { _id: null, totalRegistrations: { $sum: 1 }, totalAttended: { $sum: { $cond: ['$attended', 1, 0] } } } }
             ]);
             totalRegistrations = stats[0]?.totalRegistrations || 0;
             totalAttended = stats[0]?.totalAttended || 0;
-            totalRevenue = allActiveEvents.reduce((sum, e) => sum + (e.registeredCount || 0) * (e.fee || 0), 0);
+            totalRevenue = completedEvents.reduce((sum, e) => sum + (e.registeredCount || 0) * (e.fee || 0), 0);
         }
 
         res.json({
@@ -237,14 +243,14 @@ router.put('/:id', protect, async (req, res) => {
             if (registrationLimit !== undefined) allowedUpdates.registrationLimit = registrationLimit;
             if (tags !== undefined) allowedUpdates.tags = tags;
             if (status !== undefined) {
-                const allowed = ['Published', 'Ongoing', 'Closed'];
+                const allowed = ['Published', 'Ongoing', 'Cancelled'];
                 if (!allowed.includes(status)) return res.status(400).json({ message: 'Invalid status transition from Published' });
                 allowedUpdates.status = status;
             }
         } else if (event.status === 'Ongoing') {
             // ongoing: status only
             if (req.body.status !== undefined) {
-                const allowed = ['Completed', 'Closed', 'Ongoing'];
+                const allowed = ['Completed', 'Cancelled', 'Ongoing'];
                 if (!allowed.includes(req.body.status)) return res.status(400).json({ message: 'Invalid status transition from Ongoing' });
                 allowedUpdates.status = req.body.status;
             } else {
