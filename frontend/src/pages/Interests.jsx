@@ -33,8 +33,8 @@ const Interests = () => {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '20px' }}>
           {interestsList.map(interest => (
             <label key={interest} style={{
-              padding: '10px', border: '2px solid #000', cursor: 'pointer',
-              backgroundColor: selectedInterests.includes(interest) ? '#d0b4f4' : '#ffd6a5',
+              padding: '10px', border: '2px solid var(--black)', cursor: 'pointer',
+              backgroundColor: selectedInterests.includes(interest) ? 'var(--purple)' : 'var(--white)',
               fontWeight: selectedInterests.includes(interest) ? 'bold' : 'normal'
             }}>
               <input type="checkbox" value={interest} checked={selectedInterests.includes(interest)} onChange={() => handleCheckboxChange(interest)} style={{ marginRight: '5px', width: 'auto', marginBottom: 0 }} />
@@ -43,7 +43,7 @@ const Interests = () => {
           ))}
         </div>
         <button type="submit" disabled={loading}>{loading ? 'Saving...' : 'Save & Continue'}</button>
-        <button type="button" onClick={() => navigate('/')} style={{ marginLeft: '10px', backgroundColor: '#f3e8ff' }}>Skip</button>
+        <button type="button" onClick={() => navigate('/')} style={{ marginLeft: '10px', backgroundColor: 'var(--gray-light)' }}>Skip</button>
       </form>
     </div>
   );

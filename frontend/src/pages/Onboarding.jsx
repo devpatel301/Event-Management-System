@@ -56,9 +56,9 @@ const Onboarding = () => {
 
   const chipStyle = (selected) => ({
     padding: '8px 16px',
-    border: `2px solid #000`,
-    backgroundColor: selected ? '#d0b4f4' : '#ffd6a5',
-    color: '#000',
+    border: `2px solid var(--black)`,
+    backgroundColor: selected ? 'var(--purple)' : 'var(--white)',
+    color: 'var(--black)',
     cursor: 'pointer',
     fontSize: '0.9em',
     display: 'inline-block',
@@ -66,18 +66,18 @@ const Onboarding = () => {
   });
 
   return (
-    <div style={{ padding: '40px 20px', maxWidth: '700px', margin: '0 auto', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
-      <h1 style={{ color: '#000' }}>Welcome, {user?.name || user?.firstName}!</h1>
+    <div style={{ padding: '40px 20px', maxWidth: '700px', margin: '0 auto', minHeight: '100vh' }}>
+      <h1 style={{ color: 'var(--black)' }}>Welcome, {user?.name || user?.firstName}!</h1>
 
       {message && (
-        <p style={{ padding: '10px', backgroundColor: message.includes('saved') ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000', marginBottom: '20px' }}>
+        <p style={{ padding: '10px', backgroundColor: message.includes('saved') ? 'var(--green)' : 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', marginBottom: '20px' }}>
           {message}
         </p>
       )}
 
       {step === 1 && (
         <div>
-          <h3 style={{ color: '#000' }}>Select Your Interests</h3>
+          <h3 style={{ color: 'var(--black)' }}>Select Your Interests</h3>
           
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '30px' }}>
             {interestsList.map(interest => (
@@ -88,11 +88,11 @@ const Onboarding = () => {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-            <button onClick={() => { setSelectedInterests([]); setStep(2); }} style={{ padding: '10px 24px', backgroundColor: '#f3e8ff', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em' }}>
+            <button onClick={() => { setSelectedInterests([]); setStep(2); }} style={{ padding: '10px 24px', backgroundColor: 'var(--gray-light)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontSize: '1em' }}>
               Skip
             </button>
-            <button onClick={() => setStep(2)} style={{ padding: '10px 24px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
-              Next: Follow Clubs →
+            <button onClick={() => setStep(2)} style={{ padding: '10px 24px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
+              Next
             </button>
           </div>
         </div>
@@ -100,7 +100,7 @@ const Onboarding = () => {
 
       {step === 2 && (
         <div>
-          <h3 style={{ color: '#000' }}>Follow Clubs / Organizers</h3>
+          <h3 style={{ color: 'var(--black)' }}>Follow Clubs / Organizers</h3>
 
           {organizers.length === 0 ? (
             <p>No clubs available yet</p>
@@ -110,12 +110,12 @@ const Onboarding = () => {
                 const isFollowed = followedClubs.includes(org._id);
                 return (
                   <div key={org._id} onClick={() => toggleClub(org._id)} style={{
-                    padding: '10px 16px', border: `2px solid #000`,
-                    backgroundColor: isFollowed ? '#c1ffca' : '#b3f6ff',
+                    padding: '10px 16px', border: `2px solid var(--black)`,
+                    backgroundColor: isFollowed ? 'var(--green)' : 'var(--cyan)',
                     cursor: 'pointer', minWidth: '120px'
                   }}>
                     <strong style={{ fontSize: '0.95em' }}>{org.name}</strong>
-                    <div style={{ fontSize: '0.8em', color: '#000', marginTop: '2px' }}>{org.category || ''}</div>
+                    <div style={{ fontSize: '0.8em', color: 'var(--black)', marginTop: '2px' }}>{org.category || ''}</div>
                   </div>
                 );
               })}
@@ -123,14 +123,14 @@ const Onboarding = () => {
           )}
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <button onClick={() => setStep(1)} style={{ padding: '10px 24px', backgroundColor: '#f3e8ff', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em' }}>
-              ← Back
+            <button onClick={() => setStep(1)} style={{ padding: '10px 24px', backgroundColor: 'var(--gray-light)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontSize: '1em' }}>
+              Back
             </button>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={savePreferences} disabled={loading} style={{ padding: '10px 16px', backgroundColor: '#f3e8ff', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '0.95em' }}>
+              <button onClick={savePreferences} disabled={loading} style={{ padding: '10px 16px', backgroundColor: 'var(--gray-light)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontSize: '0.95em' }}>
                 Skip
               </button>
-              <button onClick={savePreferences} disabled={loading} style={{ padding: '10px 24px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
+              <button onClick={savePreferences} disabled={loading} style={{ padding: '10px 24px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontSize: '1em', fontWeight: 'bold' }}>
                 {loading ? 'Saving...' : 'Finish'}
               </button>
             </div>

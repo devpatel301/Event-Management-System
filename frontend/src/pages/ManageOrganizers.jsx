@@ -73,25 +73,25 @@ const ManageOrganizers = () => {
     } catch (e) { setMessage({ text: 'Server error', type: 'error' }); }
   };
 
-  if (loading) return <div style={{ padding: '20px', backgroundColor: '#fff9e0', minHeight: '100vh' }}>Loading...</div>;
+  if (loading) return <div style={{ padding: '20px', minHeight: '100vh' }}>Loading...</div>;
 
-  const inputStyle = { padding: '8px', border: '2px solid #000', backgroundColor: '#efefe2' };
+  const inputStyle = { padding: '8px', border: '2px solid var(--black)', backgroundColor: 'var(--gray-light)' };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
-      <h1 style={{ color: '#000' }}>Manage Organizers</h1>
+    <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', minHeight: '100vh' }}>
+      <h1 style={{ color: 'var(--black)' }}>Manage Organizers</h1>
 
-      <div style={{ border: '2px solid #000', padding: '20px', marginBottom: '20px', backgroundColor: '#f3e8ff' }}>
+      <div style={{ border: '2px solid var(--black)', padding: '20px', marginBottom: '20px', backgroundColor: 'var(--gray-light)' }}>
         <h3 style={{ marginTop: 0 }}>Add New Organizer</h3>
         <form onSubmit={addOrganizer} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
           <input type="text" name="name" placeholder="Organization Name *" value={form.name} onChange={handleChange} required style={inputStyle} />
           <div style={{ display: 'flex', gap: '5px' }}>
             <input type="email" name="email" placeholder="Contact Email *" value={form.email} onChange={handleChange} required style={{ ...inputStyle, flex: 1 }} />
-            <button type="button" onClick={generateEmail} style={{ padding: '8px', cursor: 'pointer', backgroundColor: '#b3f6ff', color: '#000', border: '2px solid #000', fontWeight: 'bold', whiteSpace: 'nowrap' }}>Gen Email</button>
+            <button type="button" onClick={generateEmail} style={{ padding: '8px', cursor: 'pointer', backgroundColor: 'var(--cyan)', color: 'var(--black)', border: '2px solid var(--black)', fontWeight: 'bold', whiteSpace: 'nowrap' }}>Gen Email</button>
           </div>
           <div style={{ display: 'flex', gap: '5px' }}>
             <input type="text" name="password" placeholder="Password *" value={form.password} onChange={handleChange} required style={{ ...inputStyle, flex: 1 }} />
-            <button type="button" onClick={generatePassword} style={{ padding: '8px', cursor: 'pointer', backgroundColor: '#fdef26', color: '#000', border: '2px solid #000', fontWeight: 'bold', whiteSpace: 'nowrap' }}>Generate</button>
+            <button type="button" onClick={generatePassword} style={{ padding: '8px', cursor: 'pointer', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', fontWeight: 'bold', whiteSpace: 'nowrap' }}>Generate</button>
           </div>
           <select name="category" value={form.category} onChange={handleChange} required style={inputStyle}>
             <option value="">-- Select Organizer Type * --</option>
@@ -104,44 +104,44 @@ const ManageOrganizers = () => {
             <option value="Other">Other</option>
           </select>
           <input type="text" name="description" placeholder="Description *" value={form.description} onChange={handleChange} required style={{ ...inputStyle, gridColumn: '1 / -1' }} />
-          <button type="submit" style={{ padding: '10px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', gridColumn: '1 / -1', fontWeight: 'bold', fontSize: '1em' }}>Add Organizer</button>
+          <button type="submit" style={{ padding: '10px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', gridColumn: '1 / -1', fontWeight: 'bold', fontSize: '1em' }}>Add Organizer</button>
         </form>
       </div>
 
-      {message.text && <p style={{ padding: '10px', margin: '10px 0', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000' }}>{message.text}</p>}
+      {message.text && <p style={{ padding: '10px', margin: '10px 0', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)' }}>{message.text}</p>}
 
       <h3>Existing Organizers ({organizers.length})</h3>
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid #000' }}>
-        <thead style={{ backgroundColor: '#fdef26' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '2px solid var(--black)' }}>
+        <thead style={{ backgroundColor: 'var(--yellow)' }}>
           <tr>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>ID</th>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>Name</th>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>Email</th>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>Category</th>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>Status</th>
-            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid #000' }}>Actions</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>ID</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>Name</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>Email</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>Category</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>Status</th>
+            <th style={{ padding: '10px', textAlign: 'left', border: '1px solid var(--black)' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           {organizers.map((org, i) => (
-            <tr key={org._id} style={{ borderBottom: '1px solid #000', backgroundColor:'#fffeafff'}}>
-              <td style={{ padding: '10px', fontFamily: 'monospace', border: '1px solid #000' }}>{org.organizerId || 'N/A'}</td>
-              <td style={{ padding: '10px', border: '1px solid #000' }}>{org.name}</td>
-              <td style={{ padding: '10px', border: '1px solid #000' }}>{org.email}</td>
-              <td style={{ padding: '10px', border: '1px solid #000' }}>{org.category || 'N/A'}</td>
-              <td style={{ padding: '10px', border: '1px solid #000' }}>
-                <span style={{ padding: '2px 8px', fontWeight: 'bold', border: '1px solid #000', backgroundColor: org.archived ? '#ff7676' : '#c1ffca' }}>{org.archived ? 'Archived' : 'Active'}</span>
+            <tr key={org._id} style={{ borderBottom: '1px solid var(--black)', backgroundColor:'var(--white)'}}>
+              <td style={{ padding: '10px', fontFamily: 'monospace', border: '1px solid var(--black)' }}>{org.organizerId || 'N/A'}</td>
+              <td style={{ padding: '10px', border: '1px solid var(--black)' }}>{org.name}</td>
+              <td style={{ padding: '10px', border: '1px solid var(--black)' }}>{org.email}</td>
+              <td style={{ padding: '10px', border: '1px solid var(--black)' }}>{org.category || 'N/A'}</td>
+              <td style={{ padding: '10px', border: '1px solid var(--black)' }}>
+                <span style={{ padding: '2px 8px', fontWeight: 'bold', border: '1px solid var(--black)', backgroundColor: org.archived ? 'var(--red)' : 'var(--green)' }}>{org.archived ? 'Archived' : 'Active'}</span>
               </td>
-              <td style={{ padding: '10px', border: '1px solid #000' }}>
+              <td style={{ padding: '10px', border: '1px solid var(--black)' }}>
                 <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                  <button onClick={() => archiveOrganizer(org._id)} style={{ padding: '5px 10px', backgroundColor: org.archived ? '#c1ffca' : '#ffd6a5', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>{org.archived ? 'Unarchive' : 'Archive'}</button>
-                  <button onClick={() => { setResetPasswordFor(resetPasswordFor === org._id ? null : org._id); setNewPassword(''); }} style={{ padding: '5px 10px', backgroundColor: '#fdef26', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Reset PW</button>
-                  <button onClick={() => deleteOrganizer(org._id)} style={{ padding: '5px 10px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Delete</button>
+                  <button onClick={() => archiveOrganizer(org._id)} style={{ padding: '5px 10px', backgroundColor: org.archived ? 'var(--green)' : 'var(--gray-light)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>{org.archived ? 'Unarchive' : 'Archive'}</button>
+                  <button onClick={() => { setResetPasswordFor(resetPasswordFor === org._id ? null : org._id); setNewPassword(''); }} style={{ padding: '5px 10px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Reset PW</button>
+                  <button onClick={() => deleteOrganizer(org._id)} style={{ padding: '5px 10px', backgroundColor: 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Delete</button>
                 </div>
                 {resetPasswordFor === org._id && (
                   <div style={{ marginTop: '10px', display: 'flex', gap: '5px' }}>
                     <input type="text" placeholder="New password (min 6)" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} style={{ ...inputStyle, flex: 1 }} />
-                    <button onClick={() => resetPassword(org._id)} style={{ padding: '5px 10px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Set</button>
+                    <button onClick={() => resetPassword(org._id)} style={{ padding: '5px 10px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Set</button>
                   </div>
                 )}
               </td>

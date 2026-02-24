@@ -107,9 +107,9 @@ const OrgEventDetail = () => {
 
     return (
         <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', textAlign: 'left' }}>
-            <Link to="/organizer/dashboard" style={{ marginBottom: '20px', display: 'inline-block', padding: '6px 12px', border: '2px solid #000', textDecoration: 'none', backgroundColor: '#fff' }}>&lArr; Back to Dashboard</Link>
+            <Link to="/organizer/dashboard" style={{ marginBottom: '20px', display: 'inline-block', padding: '6px 12px', border: '2px solid var(--black)', textDecoration: 'none', backgroundColor: 'var(--gray-light)' }}>Back to Dashboard</Link>
 
-            <div style={{ borderBottom: '3px solid #000', paddingBottom: '20px', marginBottom: '20px', marginTop: '10px' }}>
+            <div style={{ borderBottom: '3px solid var(--black)', paddingBottom: '20px', marginBottom: '20px', marginTop: '10px' }}>
                 <h1 style={{ marginBottom: '5px' }}>{event.name}</h1>
                 <p style={{ margin: '5px 0' }}>
                     <strong>Status:</strong> {event.status} | <strong>Type:</strong> {event.type} | <strong>Eligibility:</strong> {event.eligibility || 'All'}
@@ -123,7 +123,7 @@ const OrgEventDetail = () => {
                 </p>
                 {event.fee > 0 && <p style={{ margin: '5px 0' }}><strong>Fee:</strong> Rs. {event.fee}</p>}
                 <div style={{ marginTop: '10px' }}>
-                    <Link to={`/organizer/events/${id}/scanner`} style={{ display: 'inline-block', padding: '8px 16px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', fontWeight: 'bold', border: '2px solid #000' }}>
+                    <Link to={`/organizer/events/${id}/scanner`} style={{ display: 'inline-block', padding: '8px 16px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', fontWeight: 'bold', border: '2px solid var(--black)' }}>
                         Scan Attendance
                     </Link>
                 </div>
@@ -138,7 +138,7 @@ const OrgEventDetail = () => {
                     { label: 'Revenue', value: `Rs. ${totalRevenue}` },
                     { label: 'Attended', value: attendedCount },
                 ].map(s => (
-                    <div key={s.label} style={{ padding: '15px', border: '2px solid #000', textAlign: 'center', backgroundColor: '#fff' }}>
+                    <div key={s.label} style={{ padding: '15px', border: '2px solid var(--black)', textAlign: 'center', backgroundColor: 'var(--white)' }}>
                         <div style={{ fontSize: '0.85em', marginBottom: '4px' }}>{s.label}</div>
                         <div style={{ fontSize: '1.8em', fontWeight: 'bold' }}>{s.value}</div>
                     </div>
@@ -153,7 +153,7 @@ const OrgEventDetail = () => {
 
             {/* Custom Form notice */}
             {hasForm && (
-                <div style={{ marginBottom: '20px', padding: '12px', border: '2px solid #000', backgroundColor: '#fdef26' }}>
+                <div style={{ marginBottom: '20px', padding: '12px', border: '2px solid var(--black)', backgroundColor: 'var(--yellow)' }}>
                     <strong>Custom form fields:</strong> {formFields.map(f => f.label).join(', ')}
                     <br /><span style={{ fontSize: '0.85em' }}>Responses shown in table. File uploads have a Download link.</span>
                 </div>
@@ -176,7 +176,7 @@ const OrgEventDetail = () => {
                         <option value="Cancelled">Cancelled</option>
                         <option value="Pending">Pending</option>
                     </select>
-                    <button onClick={downloadCSV} style={{ backgroundColor: '#ff6a3d', border: '2px solid #000', fontWeight: 'bold', cursor: 'pointer', padding: '6px 12px' }}>
+                    <button onClick={downloadCSV} style={{ backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', fontWeight: 'bold', cursor: 'pointer', padding: '6px 12px' }}>
                         Export CSV
                     </button>
                 </div>

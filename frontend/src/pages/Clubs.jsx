@@ -35,16 +35,16 @@ const Clubs = () => {
         {organizers.map(org => {
           const isFollowing = followedClubs.includes(org._id);
           return (
-            <div key={org._id} style={{ border: '2px solid #000', padding: '20px', backgroundColor: '#b3f6ff' }}>
+            <div key={org._id} style={{ border: '2px solid var(--black)', padding: '20px', backgroundColor: 'var(--cyan)' }}>
               <h2 style={{ marginTop: 0 }}>{org.name}</h2>
-              <p style={{ fontWeight: 'bold', backgroundColor: '#d0b4f4', display: 'inline-block', padding: '2px 10px', border: '1px solid #000' }}>{org.category}</p>
+              <p style={{ fontWeight: 'bold', backgroundColor: 'var(--purple)', display: 'inline-block', padding: '2px 10px', border: '1px solid var(--black)' }}>{org.category}</p>
               <p>{org.desc}</p>
               <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                <Link to={`/clubs/${org._id}`} style={{ padding: '8px 16px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>View Details</Link>
+                <Link to={`/clubs/${org._id}`} style={{ padding: '8px 16px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold' }}>View Details</Link>
                 {user && user.role === 'participant' && (
                   <button onClick={() => toggleFollow(org._id)} style={{
-                    padding: '8px 16px', backgroundColor: isFollowing ? '#ff7676' : '#c1ffca',
-                    border: '2px solid #000', cursor: 'pointer'
+                    padding: '8px 16px', backgroundColor: isFollowing ? 'var(--red)' : 'var(--green)',
+                    border: '2px solid var(--black)', cursor: 'pointer'
                   }}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
                 )}
               </div>

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 const EventCard = ({ event }) => {
   return (
     <div style={{
-      border: '2px solid #000',
+      border: '2px solid var(--black)',
       padding: '15px',
       width: '280px',
       textAlign: 'left',
-      backgroundColor: '#ffd6a5',
-      color: '#000',
+      backgroundColor: 'var(--white)',
+      color: 'var(--black)',
       display: 'flex',
       flexDirection: 'column',
       gap: '8px'
@@ -26,12 +26,12 @@ const EventCard = ({ event }) => {
         <Link to={`/events/${event._id}`} style={{
           display: 'inline-block',
           padding: '7px 14px',
-          backgroundColor: '#ff6a3d',
-          color: '#000',
+          backgroundColor: 'var(--yellow)',
+          color: 'var(--black)',
           textDecoration: 'none',
           fontSize: '0.9em',
           fontWeight: 'bold',
-          border: '2px solid #000'
+          border: '2px solid var(--black)'
         }}>
           View Details
         </Link>

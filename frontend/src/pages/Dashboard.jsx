@@ -77,21 +77,21 @@ const Dashboard = () => {
             {teams.map(team => {
               const unread = unreadCounts[team._id] || 0;
               return (
-                <Link key={team._id} to={`/teams/${team._id}/chat`} style={{ textDecoration: 'none', color: '#000' }}>
-                  <div style={{ border: '2px solid #000', padding: '12px', backgroundColor: '#b3f6ff', position: 'relative' }}>
+                <Link key={team._id} to={`/teams/${team._id}/chat`} style={{ textDecoration: 'none', color: 'var(--black)' }}>
+                  <div style={{ border: '2px solid var(--black)', padding: '12px', backgroundColor: 'var(--cyan)', position: 'relative' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <h3 style={{ margin: '0 0 4px 0', fontSize: '1em' }}>{team.name}</h3>
                       {unread > 0 && (
                         <span style={{
                           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                           minWidth: '20px', height: '20px', borderRadius: '50%',
-                          backgroundColor: '#ff3b3b', color: '#fff', fontSize: '0.75em',
+                          backgroundColor: 'var(--red)', color: 'var(--white)', fontSize: '0.75em',
                           fontWeight: 'bold', padding: '0 5px'
                         }}>{unread}</span>
                       )}
                     </div>
                     <p style={{ margin: 0, fontSize: '0.85em' }}>{team.event?.name || 'Unknown Event'}</p>
-                    <p style={{ margin: '3px 0 0 0', fontSize: '0.8em', color: '#555' }}>
+                    <p style={{ margin: '3px 0 0 0', fontSize: '0.8em', color: 'var(--gray)' }}>
                       {team.members.length} members · {team.status}
                     </p>
                   </div>
@@ -102,12 +102,12 @@ const Dashboard = () => {
         </div>
       )}
       
-      <div style={{ display: 'flex', borderBottom: '3px solid #000', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', borderBottom: '3px solid var(--black)', marginBottom: '20px' }}>
         {['Upcoming', 'Normal', 'Merchandise', 'Completed', 'Cancelled'].map(tab => (
           <div key={tab} onClick={() => setActiveTab(tab)} style={{
             padding: '10px 20px', cursor: 'pointer', fontWeight: 'bold',
-            backgroundColor: activeTab === tab ? '#fdef26' : 'transparent',
-            borderBottom: activeTab === tab ? '3px solid #000' : 'none',
+            backgroundColor: activeTab === tab ? 'var(--yellow)' : 'transparent',
+            borderBottom: activeTab === tab ? '3px solid var(--black)' : 'none',
           }}>{tab}</div>
         ))}
       </div>
@@ -119,23 +119,23 @@ const Dashboard = () => {
       ) : (
         <div style={{ display: 'grid', gap: '15px' }}>
           {filteredRegs.map(reg => (
-            <div key={reg._id} style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#ffd6a5' }}>
+            <div key={reg._id} style={{ border: '2px solid var(--black)', padding: '15px', backgroundColor: 'var(--white)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <h3 style={{ margin: '0 0 5px 0' }}>{reg.event.name}</h3>
                   <p style={{ margin: 0 }}>{new Date(reg.event.startDate).toLocaleString()} | {reg.event.type}</p>
                   <p style={{ margin: '5px 0 0 0', fontSize: '0.9em' }}>Organized by: {reg.event.organizer?.name || 'Unknown'}</p>
-                  {reg.team && <p style={{ margin: '5px 0 0 0', fontSize: '0.9em', fontWeight: 'bold', color: '#6a0dad' }}>Team: {reg.team.name}</p>}
+                  {reg.team && <p style={{ margin: '5px 0 0 0', fontSize: '0.9em', fontWeight: 'bold' }}>Team: {reg.team.name}</p>}
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{
-                    display: 'inline-block', padding: '4px 10px', fontWeight: 'bold', border: '2px solid #000',
-                    backgroundColor: '#fff', marginBottom: '10px'
+                    display: 'inline-block', padding: '4px 10px', fontWeight: 'bold', border: '2px solid var(--black)',
+                    backgroundColor: 'var(--white)', marginBottom: '10px'
                   }}>{reg.status}</div>
                   <br />
                   {reg.status === 'Confirmed' && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-end' }}>
-                      <Link to={`/ticket/${reg._id}`} style={{ fontWeight: 'bold' }}>View Ticket &rarr;</Link>
+                      <Link to={`/ticket/${reg._id}`} style={{ fontWeight: 'bold' }}>View Ticket</Link>
                       {new Date(reg.event.endDate) < new Date() && (
                         <Link to={`/feedback/${reg.event._id}`} style={{ fontSize: '0.85em' }}>Give Feedback</Link>
                       )}

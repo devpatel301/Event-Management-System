@@ -31,27 +31,27 @@ const PasswordResetSection = ({ token }) => {
     } catch (err) { setMsg('Server error'); }
   };
 
-  const statusColor = (s) => s === 'Approved' ? '#c1ffca' : s === 'Rejected' ? '#ff7676' : '#fdef26';
+  const statusColor = (s) => s === 'Approved' ? 'var(--green)' : s === 'Rejected' ? 'var(--red)' : 'var(--yellow)';
 
   return (
-    <div style={{ border: '2px solid #000', padding: '15px', marginBottom: '20px', backgroundColor: '#ffd6a5' }}>
+    <div style={{ border: '2px solid var(--black)', padding: '15px', marginBottom: '20px', backgroundColor: 'var(--white)' }}>
       <h4 style={{ marginTop: 0 }}>Request Password Reset</h4>
-      <p style={{ fontSize: '0.85em', color: '#000' }}>Submit a request and an admin will generate a new one.</p>
+      <p style={{ fontSize: '0.85em', color: 'var(--black)' }}>Submit a request and an admin will generate a new one.</p>
       <textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Reason for reset..."
-        style={{ width: '100%', padding: '8px', border: '2px solid #000', minHeight: '60px', boxSizing: 'border-box', marginBottom: '8px', backgroundColor: '#efefe2' }} />
-      <button onClick={submitRequest} style={{ padding: '8px 16px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Submit Request</button>
-      {msg && <p style={{ marginTop: '8px', color: '#000', fontWeight: 'bold' }}>{msg}</p>}
+        style={{ width: '100%', padding: '8px', border: '2px solid var(--black)', minHeight: '60px', boxSizing: 'border-box', marginBottom: '8px', backgroundColor: 'var(--gray-light)' }} />
+      <button onClick={submitRequest} style={{ padding: '8px 16px', backgroundColor: 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Submit Request</button>
+      {msg && <p style={{ marginTop: '8px', color: 'var(--black)', fontWeight: 'bold' }}>{msg}</p>}
       {requests.length > 0 && (
         <div style={{ marginTop: '15px' }}>
           <h5>My Requests</h5>
           {requests.map(req => (
-            <div key={req._id} style={{ padding: '8px', border: '1px solid #000', marginBottom: '5px', fontSize: '0.9em', backgroundColor: '#ffd6a5' }}>
+            <div key={req._id} style={{ padding: '8px', border: '1px solid var(--black)', marginBottom: '5px', fontSize: '0.9em', backgroundColor: 'var(--white)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>{req.reason}</span>
-                <span style={{ backgroundColor: statusColor(req.status), padding: '2px 8px', fontWeight: 'bold', border: '1px solid #000' }}>{req.status}</span>
+                <span style={{ backgroundColor: statusColor(req.status), padding: '2px 8px', fontWeight: 'bold', border: '1px solid var(--black)' }}>{req.status}</span>
               </div>
-              {req.adminComment && <p style={{ margin: '4px 0 0', color: '#000', fontSize: '0.85em' }}>Admin: {req.adminComment}</p>}
-              <p style={{ margin: '2px 0 0', color: '#000', fontSize: '0.8em' }}>{new Date(req.createdAt).toLocaleDateString()}</p>
+              {req.adminComment && <p style={{ margin: '4px 0 0', color: 'var(--black)', fontSize: '0.85em' }}>Admin: {req.adminComment}</p>}
+              <p style={{ margin: '2px 0 0', color: 'var(--black)', fontSize: '0.8em' }}>{new Date(req.createdAt).toLocaleDateString()}</p>
             </div>
           ))}
         </div>
@@ -129,28 +129,28 @@ const Profile = () => {
     } catch (e) { setPwMsg({ text: 'Server error.', type: 'error' }); }
   };
 
-  if (loading) return <div style={{ padding: '20px', backgroundColor: '#fff9e0', minHeight: '100vh' }}>Loading...</div>;
-  if (!profile) return <div style={{ padding: '20px', backgroundColor: '#fff9e0', minHeight: '100vh' }}>Profile not found</div>;
+  if (loading) return <div style={{ padding: '20px', minHeight: '100vh' }}>Loading...</div>;
+  if (!profile) return <div style={{ padding: '20px', minHeight: '100vh' }}>Profile not found</div>;
 
-  const fieldStyle = { width: '100%', padding: '8px', display: 'block', border: '2px solid #000', boxSizing: 'border-box', backgroundColor: '#efefe2' };
-  const disabledStyle = { ...fieldStyle, backgroundColor: '#f3e8ff' };
-  const msgStyle = (type) => ({ padding: '10px', margin: '10px 0', backgroundColor: type === 'success' ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000' });
+  const fieldStyle = { width: '100%', padding: '8px', display: 'block', border: '2px solid var(--black)', boxSizing: 'border-box', backgroundColor: 'var(--gray-light)' };
+  const disabledStyle = { ...fieldStyle, backgroundColor: 'var(--gray-light)' };
+  const msgStyle = (type) => ({ padding: '10px', margin: '10px 0', backgroundColor: type === 'success' ? 'var(--green)' : 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)' });
 
   const chipStyle = (selected) => ({
-    padding: '6px 12px', border: '2px solid #000',
-    backgroundColor: selected ? '#d0b4f4' : '#ffd6a5',
+    padding: '6px 12px', border: '2px solid var(--black)',
+    backgroundColor: selected ? 'var(--purple)' : 'var(--white)',
     cursor: editing ? 'pointer' : 'default', fontSize: '0.9em', display: 'inline-block', fontWeight: selected ? 'bold' : 'normal'
   });
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
-      <h1 style={{ color: '#000' }}>My Profile</h1>
+    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', minHeight: '100vh' }}>
+      <h1 style={{ color: 'var(--black)' }}>My Profile</h1>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
             <h3>{isOrganizer ? 'Organization Details' : 'Personal Details'}</h3>
-            <button onClick={() => setEditing(!editing)} style={{ padding: '6px 14px', cursor: 'pointer', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', fontWeight: 'bold' }}>
+            <button onClick={() => setEditing(!editing)} style={{ padding: '6px 14px', cursor: 'pointer', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', fontWeight: 'bold' }}>
               {editing ? 'Cancel' : 'Edit'}
             </button>
           </div>
@@ -176,7 +176,7 @@ const Profile = () => {
                 <div style={{ marginBottom: '10px' }}><label>Description</label><textarea name="desc" value={profile.desc || ''} onChange={handleChange} disabled={!editing} style={{ ...fieldStyle, minHeight: '80px' }} /></div>
                 <div style={{ marginBottom: '10px' }}><label>Contact (optional)</label><input type="text" name="contactNumber" value={profile.contactNumber || ''} onChange={handleChange} disabled={!editing} style={fieldStyle} /></div>
 
-                {profile.organizerId && <div style={{ marginBottom: '10px' }}><label>Organizer ID</label><input type="text" value={profile.organizerId} disabled style={{ ...disabledStyle, backgroundColor: '#fdef26' }} /></div>}
+                {profile.organizerId && <div style={{ marginBottom: '10px' }}><label>Organizer ID</label><input type="text" value={profile.organizerId} disabled style={{ ...disabledStyle, backgroundColor: 'var(--yellow)' }} /></div>}
               </>
             ) : (
               <>
@@ -215,18 +215,18 @@ const Profile = () => {
                   </div>
                 ) : (
                   (!profile.followedClubs || profile.followedClubs.length === 0)
-                    ? <p style={{ color: '#000' }}>Not following any clubs.</p>
+                    ? <p style={{ color: 'var(--black)' }}>Not following any clubs.</p>
                     : <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '5px' }}>
                         {profile.followedClubs.map(clubId => {
                           const club = organizers.find(o => o._id === clubId);
-                          return <div key={clubId} style={{ padding: '6px 12px', border: '2px solid #000', backgroundColor: '#e8ccff', fontSize: '0.9em' }}>{club ? club.name : 'Unknown'}</div>;
+                          return <div key={clubId} style={{ padding: '6px 12px', border: '2px solid var(--black)', backgroundColor: 'var(--purple)', fontSize: '0.9em' }}>{club ? club.name : 'Unknown'}</div>;
                         })}
                       </div>
                 )}
               </div>
             )}
 
-            {editing && <button type="submit" style={{ padding: '10px 20px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>}
+            {editing && <button type="submit" style={{ padding: '10px 20px', backgroundColor: 'var(--yellow)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>}
           </form>
         </div>
 
@@ -236,13 +236,13 @@ const Profile = () => {
           {isOrganizer ? (
             <PasswordResetSection token={user.token} />
           ) : (
-            <div style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#b3f6ff' }}>
+            <div style={{ border: '2px solid var(--black)', padding: '15px', backgroundColor: 'var(--cyan)' }}>
               <h4 style={{ marginTop: 0 }}>Change Password</h4>
               <form onSubmit={updatePassword}>
                 <div style={{ marginBottom: '10px' }}><label>Current Password</label><input type="password" name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
                 <div style={{ marginBottom: '10px' }}><label>New Password</label><input type="password" name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
                 <div style={{ marginBottom: '10px' }}><label>Confirm New Password</label><input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
-                <button type="submit" style={{ padding: '8px 16px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Update Password</button>
+                <button type="submit" style={{ padding: '8px 16px', backgroundColor: 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Update Password</button>
               </form>
             </div>
           )}

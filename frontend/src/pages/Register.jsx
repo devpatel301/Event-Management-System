@@ -55,15 +55,15 @@ const Register = () => {
     } catch (err) { setError('Failed to connect to the server.'); }
   };
 
-  const inputStyle = { padding: '12px', border: '2px solid #000', fontSize: '1.1rem', width: '100%', boxSizing: 'border-box', backgroundColor: '#efefe2' };
+  const inputStyle = { padding: '12px', border: '2px solid var(--black)', fontSize: '1.1rem', width: '100%', boxSizing: 'border-box' };
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
-      <h1 style={{ textAlign: 'center', color: '#000' }}>Register</h1>
+    <div style={{ padding: '20px', minHeight: '100vh' }}>
+      <h1 style={{ textAlign: 'center', color: 'var(--black)' }}>Register</h1>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '420px', margin: '0 auto', gap: '15px' }}>
         
-        {error && <p style={{ color: '#000', fontSize: '1rem', margin: 0, padding: '10px', backgroundColor: '#ff7676', border: '2px solid #000' }}>{error}</p>}
-        {successMsg && <p style={{ color: '#000', fontSize: '1rem', margin: 0, padding: '10px', backgroundColor: '#c1ffca', border: '2px solid #000' }}>{successMsg}</p>}
+        {error && <p style={{ color: 'var(--black)', fontSize: '1rem', margin: 0, padding: '10px', backgroundColor: 'var(--red)', border: '2px solid var(--black)' }}>{error}</p>}
+        {successMsg && <p style={{ color: 'var(--black)', fontSize: '1rem', margin: 0, padding: '10px', backgroundColor: 'var(--green)', border: '2px solid var(--black)' }}>{successMsg}</p>}
 
         <div>
           <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>First Name</label>
@@ -76,7 +76,7 @@ const Register = () => {
         <div>
           <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>Email</label>
           <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} />
-          {isIIITEmail && <p style={{ margin: '5px 0 0 0', color: '#000', fontSize: '0.9em', backgroundColor: '#c1ffca', padding: '4px 8px', border: '1px solid #000' }}>IIIT email detected — you are registered as an IIIT participant.</p>}
+          {isIIITEmail && <p style={{ margin: '5px 0 0 0', color: 'var(--black)', fontSize: '0.9em', backgroundColor: 'var(--green)', padding: '4px 8px', border: '1px solid var(--black)' }}>IIIT email detected — you are registered as an IIIT participant.</p>}
         </div>
         <div>
           <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>Password</label>
@@ -89,23 +89,23 @@ const Register = () => {
         <div>
           <label style={{ display: 'block', marginBottom: '4px', fontWeight: 'bold' }}>College / Organization *</label>
           {isIIITEmail ? (
-            <input type="text" value="IIIT Hyderabad" disabled style={{ ...inputStyle, backgroundColor: '#f3e8ff' }} />
+            <input type="text" value="IIIT Hyderabad" disabled style={{ ...inputStyle, backgroundColor: 'var(--gray-light)' }} />
           ) : (
             <input type="text" name="collegeName" value={formData.collegeName} onChange={handleChange} required style={inputStyle} placeholder="Enter your college name" />
           )}
         </div>
 
-        <div style={{ padding: '10px', backgroundColor: '#f3e8ff', border: '2px solid #000' }}>
+        <div style={{ padding: '10px', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)' }}>
           <strong>Participant Type: </strong>
-          <span style={{ color: '#000', backgroundColor: isIIITEmail ? '#c1ffca' : '#fdef26', padding: '2px 8px', fontWeight: 'bold' }}>{isIIITEmail ? 'IIIT' : 'Non-IIIT'}</span>
-          <p style={{ margin: '5px 0 0 0', fontSize: '0.85em', color: '#000' }}>Determined automatically by your email domain.</p>
+          <span style={{ color: 'var(--black)', backgroundColor: isIIITEmail ? 'var(--green)' : 'var(--yellow)', padding: '2px 8px', fontWeight: 'bold' }}>{isIIITEmail ? 'IIIT' : 'Non-IIIT'}</span>
+          <p style={{ margin: '5px 0 0 0', fontSize: '0.85em', color: 'var(--black)' }}>Determined automatically by your email domain.</p>
         </div>
 
-        <button type="submit" style={{ padding: '12px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold' }}>
+        <button type="submit" style={{ padding: '12px', fontSize: '1.2rem' }}>
           Register
         </button>
         <p style={{ textAlign: 'center', margin: 0 }}>
-          Already have an account? <a href="/login" style={{ color: '#000', fontWeight: 'bold' }}>Login here</a>
+          Already have an account? <a href="/login" style={{ color: 'var(--black)', fontWeight: 'bold' }}>Login here</a>
         </p>
       </form>
     </div>

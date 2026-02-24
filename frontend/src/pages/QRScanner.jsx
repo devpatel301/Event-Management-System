@@ -74,15 +74,15 @@ const QRScanner = () => {
 
     return (
         <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', textAlign: 'left' }}>
-            <Link to={`/organizer/events/${eventId}`} style={{ display: 'inline-block', padding: '4px 10px', backgroundColor: '#f3e8ff', border: '2px solid #000', textDecoration: 'none', marginBottom: '10px' }}>
-                &larr; Back to Event
+            <Link to={`/organizer/events/${eventId}`} style={{ display: 'inline-block', padding: '4px 10px', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)', textDecoration: 'none', marginBottom: '10px' }}>
+                Back to Event
             </Link>
 
             <h1>QR Scanner & Attendance</h1>
             {event && <p style={{ fontWeight: 'bold' }}>Event: {event.name}</p>}
 
             {message.text && (
-                <div style={{ padding: '12px', marginBottom: '15px', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', border: '2px solid #000', fontWeight: 'bold' }}>
+                <div style={{ padding: '12px', marginBottom: '15px', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', border: '2px solid var(--black)', fontWeight: 'bold' }}>
                     {message.text}
                     {scanResult && scanResult.success && <span style={{ marginLeft: '10px' }}>Ticket: {scanResult.data.ticketId}</span>}
                 </div>
@@ -90,15 +90,15 @@ const QRScanner = () => {
 
             {stats && (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', marginBottom: '25px' }}>
-                    <div style={{ padding: '15px', backgroundColor: '#b3f6ff', border: '2px solid #000', textAlign: 'center' }}>
+                    <div style={{ padding: '15px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)', textAlign: 'center' }}>
                         <h4 style={{ margin: '0 0 5px' }}>Total Registered</h4>
                         <p style={{ fontSize: '2em', margin: 0, fontWeight: 'bold' }}>{stats.total}</p>
                     </div>
-                    <div style={{ padding: '15px', backgroundColor: '#c1ffca', border: '2px solid #000', textAlign: 'center' }}>
+                    <div style={{ padding: '15px', backgroundColor: 'var(--green)', border: '2px solid var(--black)', textAlign: 'center' }}>
                         <h4 style={{ margin: '0 0 5px' }}>Scanned</h4>
                         <p style={{ fontSize: '2em', margin: 0, fontWeight: 'bold' }}>{stats.attendedCount}</p>
                     </div>
-                    <div style={{ padding: '15px', backgroundColor: '#fdef26', border: '2px solid #000', textAlign: 'center' }}>
+                    <div style={{ padding: '15px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', textAlign: 'center' }}>
                         <h4 style={{ margin: '0 0 5px' }}>Not Scanned</h4>
                         <p style={{ fontSize: '2em', margin: 0, fontWeight: 'bold' }}>{stats.notAttendedCount}</p>
                     </div>
@@ -106,28 +106,28 @@ const QRScanner = () => {
             )}
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
-                <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#ffd6a5' }}>
+                <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--white)' }}>
                     <h3 style={{ marginTop: 0 }}>Camera Scan</h3>
                     <div id="qr-reader" ref={scannerRef} style={{ width: '100%', marginBottom: '10px' }}></div>
                     {!scanning ? (
                         <button onClick={startScanner} style={{ width: '100%', padding: '10px 20px' }}>Start Camera</button>
                     ) : (
-                        <button onClick={stopScanner} style={{ width: '100%', padding: '10px 20px', backgroundColor: '#ff7676' }}>Stop Camera</button>
+                        <button onClick={stopScanner} style={{ width: '100%', padding: '10px 20px', backgroundColor: 'var(--red)' }}>Stop Camera</button>
                     )}
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#b3f6ff' }}>
+                    <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--cyan)' }}>
                         <h3 style={{ marginTop: 0 }}>Upload QR Image</h3>
                         <div id="qr-file-reader" style={{ display: 'none' }}></div>
                         <input type="file" accept="image/*" onChange={handleFileUpload} />
                     </div>
 
-                    <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#f3e8ff' }}>
+                    <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--gray-light)' }}>
                         <h3 style={{ marginTop: 0 }}>Manual Entry</h3>
                         <form onSubmit={handleManualScan} style={{ display: 'flex', gap: '8px' }}>
                             <input type="text" placeholder="Enter Ticket ID" value={manualTicket} onChange={(e) => setManualTicket(e.target.value)} style={{ flex: 1 }} />
-                            <button type="submit" style={{ backgroundColor: '#c1ffca' }}>Verify</button>
+                            <button type="submit" style={{ backgroundColor: 'var(--green)' }}>Verify</button>
                         </form>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const QRScanner = () => {
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                         <h2>Attendance List</h2>
-                        <button onClick={handleExport} style={{ backgroundColor: '#fdef26' }}>Export CSV</button>
+                        <button onClick={handleExport} style={{ backgroundColor: 'var(--yellow)' }}>Export CSV</button>
                     </div>
 
                     <h3>Not Yet Scanned ({stats.notAttendedCount})</h3>
@@ -155,7 +155,7 @@ const QRScanner = () => {
                                         <td>{reg.user.firstName} {reg.user.lastName}</td>
                                         <td>{reg.user.email}</td>
                                         <td>
-                                            <button onClick={() => handleManualOverride(reg._id)} style={{ fontSize: '0.85em', backgroundColor: '#fdef26' }}>Manual Mark</button>
+                                            <button onClick={() => handleManualOverride(reg._id)} style={{ fontSize: '0.85em', backgroundColor: 'var(--yellow)' }}>Manual Mark</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -168,7 +168,7 @@ const QRScanner = () => {
                         <p>No participants scanned yet.</p>
                     ) : (
                         <table>
-                            <thead style={{ backgroundColor: '#c1ffca' }}>
+                            <thead style={{ backgroundColor: 'var(--green)' }}>
                                 <tr><th>Ticket ID</th><th>Name</th><th>Email</th><th>Scanned At</th><th>Note</th></tr>
                             </thead>
                             <tbody>

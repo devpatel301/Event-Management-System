@@ -37,13 +37,13 @@ const TeamDashboard = () => {
 
     if (loading) return <div style={{ padding: '20px' }}>Loading...</div>;
 
-    const statusBg = { forming: '#fdef26', complete: '#b3f6ff', registered: '#c1ffca' };
+    const statusBg = { forming: 'var(--yellow)', complete: 'var(--cyan)', registered: 'var(--green)' };
 
     return (
         <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto', textAlign: 'left' }}>
             <h1>My Teams</h1>
 
-            <div style={{ padding: '20px', border: '2px solid #000', marginBottom: '20px', backgroundColor: '#f3e8ff' }}>
+            <div style={{ padding: '20px', border: '2px solid var(--black)', marginBottom: '20px', backgroundColor: 'var(--gray-light)' }}>
                 <h3 style={{ marginTop: 0 }}>Join a Team</h3>
                 <form onSubmit={handleJoin} style={{ display: 'flex', gap: '10px' }}>
                     <input type="text" placeholder="Enter team code (e.g. TEAM-A1B2C3)" value={joinCode} onChange={(e) => setJoinCode(e.target.value)} style={{ flex: 1 }} />
@@ -52,7 +52,7 @@ const TeamDashboard = () => {
             </div>
 
             {message.text && (
-                <div style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', border: '2px solid #000', fontWeight: 'bold' }}>{message.text}</div>
+                <div style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', border: '2px solid var(--black)', fontWeight: 'bold' }}>{message.text}</div>
             )}
 
             {teams.length === 0 ? (
@@ -63,18 +63,18 @@ const TeamDashboard = () => {
                         const leaderId = team.leader && team.leader._id ? team.leader._id : team.leader;
                         const eventName = team.event && team.event.name ? team.event.name : 'Unknown';
                         return (
-                        <div key={team._id} style={{ border: '2px solid #000', padding: '20px', backgroundColor: '#b3f6ff' }}>
+                        <div key={team._id} style={{ border: '2px solid var(--black)', padding: '20px', backgroundColor: 'var(--cyan)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                 <div>
                                     <h3 style={{ margin: '0 0 5px 0' }}>{team.name}</h3>
                                     <p style={{ margin: '0 0 5px 0' }}>Event: {eventName}</p>
                                     <p style={{ margin: '0 0 5px 0' }}>
                                         <strong>Status:</strong>{' '}
-                                        <span style={{ fontWeight: 'bold', backgroundColor: statusBg[team.status] || '#ffd6a5', padding: '1px 8px', border: '1px solid #000' }}>{team.status.toUpperCase()}</span>
+                                        <span style={{ fontWeight: 'bold', backgroundColor: statusBg[team.status] || 'var(--gray-light)', padding: '1px 8px', border: '1px solid var(--black)' }}>{team.status.toUpperCase()}</span>
                                     </p>
                                     <p style={{ margin: '0 0 5px 0' }}>
                                         <strong>Team Code:</strong>{' '}
-                                        <span style={{ fontFamily: 'monospace', backgroundColor: '#fdef26', padding: '2px 6px', border: '1px solid #000' }}>{team.teamCode}</span>
+                                        <span style={{ fontFamily: 'monospace', backgroundColor: 'var(--yellow)', padding: '2px 6px', border: '1px solid var(--black)' }}>{team.teamCode}</span>
                                         <button onClick={() => navigator.clipboard.writeText(team.teamCode)} style={{ marginLeft: '8px', padding: '2px 8px', fontSize: '0.8em' }}>Copy</button>
                                     </p>
                                 </div>
@@ -85,13 +85,13 @@ const TeamDashboard = () => {
                                 </div>
                             </div>
 
-                            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#d0b4f4', border: '1px solid #000' }}>
+                            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: 'var(--purple)', border: '1px solid var(--black)' }}>
                                 <strong>Members:</strong>
                                 <ul style={{ margin: '5px 0 0 0', paddingLeft: '20px' }}>
                                     {team.members.map(member => (
                                         <li key={member._id} style={{ marginBottom: '3px' }}>
                                             {member.firstName} {member.lastName}
-                                            {member._id === leaderId && <span style={{ backgroundColor: '#fdef26', marginLeft: '8px', fontSize: '0.85em', padding: '1px 6px', border: '1px solid #000' }}>(Leader)</span>}
+                                            {member._id === leaderId && <span style={{ backgroundColor: 'var(--yellow)', marginLeft: '8px', fontSize: '0.85em', padding: '1px 6px', border: '1px solid var(--black)' }}>(Leader)</span>}
                                         </li>
                                     ))}
                                 </ul>
@@ -100,9 +100,9 @@ const TeamDashboard = () => {
                             {team.status !== 'registered' && (
                                 <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
                                     {leaderId === user.userId ? (
-                                        <button onClick={() => handleDelete(team._id)} style={{ backgroundColor: '#ff7676', fontSize: '0.85em' }}>Delete Team</button>
+                                        <button onClick={() => handleDelete(team._id)} style={{ backgroundColor: 'var(--red)', fontSize: '0.85em' }}>Delete Team</button>
                                     ) : (
-                                        <button onClick={() => handleLeave(team._id)} style={{ backgroundColor: '#ffd6a5', fontSize: '0.85em' }}>Leave Team</button>
+                                        <button onClick={() => handleLeave(team._id)} style={{ backgroundColor: 'var(--gray-light)', fontSize: '0.85em' }}>Leave Team</button>
                                     )}
                                 </div>
                             )}

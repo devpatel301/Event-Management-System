@@ -59,10 +59,10 @@ const OrgDashboard = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
                 <h1>Organizer Dashboard</h1>
                 <div style={{ display: 'flex', gap: '10px' }}>
-                    <Link to="/organizer/feedback" style={{ padding: '10px 20px', backgroundColor: '#f3e8ff', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>
+                    <Link to="/organizer/feedback" style={{ padding: '10px 20px', backgroundColor: 'var(--gray-light)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold' }}>
                         View Feedback
                     </Link>
-                    <Link to="/organizer/events/create" style={{ padding: '10px 20px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold' }}>
+                    <Link to="/organizer/events/create" style={{ padding: '10px 20px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold' }}>
                         + Create New Event
                     </Link>
                 </div>
@@ -72,7 +72,7 @@ const OrgDashboard = () => {
             <h3 style={{ marginBottom: '10px' }}>Completed Events Stats</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px', marginBottom: '40px' }}>
                 {statItems.map(s => (
-                    <div key={s.label} style={{ padding: '15px', border: '2px solid #000', textAlign: 'center', backgroundColor: '#f3e8ff' }}>
+                    <div key={s.label} style={{ padding: '15px', border: '2px solid var(--black)', textAlign: 'center', backgroundColor: 'var(--gray-light)' }}>
                         <div style={{ fontSize: '0.85em', marginBottom: '4px' }}>{s.label}</div>
                         <div style={{ fontSize: '1.6em', fontWeight: 'bold' }}>{s.value}</div>
                     </div>
@@ -88,24 +88,24 @@ const OrgDashboard = () => {
                         <h3>{status} Events ({statusEvents.length})</h3>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '15px' }}>
                             {statusEvents.map(event => (
-                                <div key={event._id} style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#c5e3ff' }}>
+                                <div key={event._id} style={{ border: '2px solid var(--black)', padding: '15px', backgroundColor: 'var(--cyan)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                         <h3 style={{ margin: '0 0 8px 0', flex: 1 }}>{event.name}</h3>
-                                        <span style={{ padding: '2px 8px', fontSize: '0.8em', fontWeight: 'bold', border: '2px solid #000', marginLeft: '8px', whiteSpace: 'nowrap' }}>
+                                        <span style={{ padding: '2px 8px', fontSize: '0.8em', fontWeight: 'bold', border: '2px solid var(--black)', marginLeft: '8px', whiteSpace: 'nowrap' }}>
                                             {event.status}
                                         </span>
                                     </div>
                                     <p style={{ margin: '0 0 4px 0', fontSize: '0.9em' }}>{new Date(event.startDate).toLocaleDateString()}</p>
                                     <p style={{ margin: '0 0 12px 0', fontSize: '0.9em' }}>Type: {event.type} | Registrations: {event.registeredCount || 0}</p>
                                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                                        <Link to={`/organizer/events/${event._id}`} style={{ padding: '5px 10px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold', fontSize: '0.9em' }}>
+                                        <Link to={`/organizer/events/${event._id}`} style={{ padding: '5px 10px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold', fontSize: '0.9em' }}>
                                             Manage
                                         </Link>
-                                        <Link to={`/organizer/events/${event._id}/edit`} style={{ padding: '5px 10px', backgroundColor: '#fdef26', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold', fontSize: '0.9em' }}>
+                                        <Link to={`/organizer/events/${event._id}/edit`} style={{ padding: '5px 10px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold', fontSize: '0.9em' }}>
                                             Edit
                                         </Link>
                                         {event.status === 'Draft' && (
-                                            <button onClick={() => deleteEvent(event._id)} style={{ padding: '5px 10px', backgroundColor: '#fff', color: '#000', border: '2px solid #000', fontWeight: 'bold', fontSize: '0.9em', cursor: 'pointer' }}>
+                                            <button onClick={() => deleteEvent(event._id)} style={{ padding: '5px 10px', backgroundColor: 'var(--white)', color: 'var(--black)', border: '2px solid var(--black)', fontWeight: 'bold', fontSize: '0.9em', cursor: 'pointer' }}>
                                                 Delete
                                             </button>
                                         )}

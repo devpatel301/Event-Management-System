@@ -107,11 +107,11 @@ const BrowseEvents = () => {
           </h2>
           <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '8px' }}>
             {trendingEvents.map((event) => (
-              <div key={event._id} style={{ minWidth: '220px', maxWidth: '220px', border: '2px solid #000', backgroundColor: '#fff', padding: '12px', flexShrink: 0, position: 'relative' }}>
+              <div key={event._id} style={{ minWidth: '220px', maxWidth: '220px', border: '2px solid var(--black)', backgroundColor: 'var(--white)', padding: '12px', flexShrink: 0, position: 'relative' }}>
                 <p style={{ fontWeight: 'bold', margin: '0 0 4px 0', fontSize: '0.95rem', paddingRight: '28px' }}>{event.name}</p>
-                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: '#444' }}>{event.organizer?.name}</p>
-                <p style={{ margin: '0 0 8px 0', fontSize: '0.78rem', color: '#666' }}>{event.registeredCount || 0} registered</p>
-                <a href={`/events/${event._id}`} style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#000', textDecoration: 'underline' }}>View →</a>
+                <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: 'var(--gray)' }}>{event.organizer?.name}</p>
+                <p style={{ margin: '0 0 8px 0', fontSize: '0.78rem', color: 'var(--gray)' }}>{event.registeredCount || 0} registered</p>
+                <a href={`/events/${event._id}`} style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--black)', textDecoration: 'underline' }}>View</a>
               </div>
             ))}
           </div>

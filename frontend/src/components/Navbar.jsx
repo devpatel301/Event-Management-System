@@ -11,20 +11,20 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const linkStyle = { textDecoration: 'none', color: '#000', fontWeight: 'bold' };
+  const linkStyle = { textDecoration: 'none', color: 'var(--black)', fontWeight: 'bold' };
 
   return (
     <nav style={{ 
       padding: '12px 20px', 
-      borderBottom: '3px solid #000', 
+      borderBottom: '3px solid var(--black)', 
       display: 'flex', 
       justifyContent: 'space-between', 
       alignItems: 'center',
-      backgroundColor: '#fdef26'
+      backgroundColor: 'var(--yellow)'
     }}>
       <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
         <Link to="/" style={{ 
-          fontSize: '1.2rem', fontWeight: 'bold', textDecoration: 'none', color: '#000',
+          fontSize: '1.2rem', fontWeight: 'bold', textDecoration: 'none', color: 'var(--black)',
           display: 'flex', alignItems: 'center', gap: '10px'
         }}>
           <img src="/logo.png" alt="Felicity Logo" style={{ height: '40px' }} />
@@ -64,15 +64,15 @@ const Navbar = () => {
               <Link to="/profile" style={linkStyle}>Profile</Link>
             )}
             <button onClick={handleLogout} style={{ 
-              padding: '5px 12px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000'
+              padding: '5px 12px', backgroundColor: 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)'
             }}>Logout</button>
           </div>
         ) : (
           <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
             <Link to="/login" style={linkStyle}>Login</Link>
             <Link to="/register" style={{ 
-              textDecoration: 'none', backgroundColor: '#ff6a3d', color: '#000',
-              padding: '6px 14px', border: '2px solid #000', fontWeight: 'bold'
+              textDecoration: 'none', backgroundColor: 'var(--yellow)', color: 'var(--black)',
+              padding: '6px 14px', border: '2px solid var(--black)', fontWeight: 'bold'
             }}>Register</Link>
           </div>
         )}

@@ -95,28 +95,28 @@ const TeamChat = () => {
     return (
         <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', height: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
             {/* Header */}
-            <div style={{ borderBottom: '3px solid #000', paddingBottom: '10px', marginBottom: '10px' }}>
-                <Link to="/teams" style={{ display: 'inline-block', padding: '4px 10px', backgroundColor: '#f3e8ff', border: '2px solid #000', textDecoration: 'none', marginBottom: '5px' }}>&larr; Back to Teams</Link>
+            <div style={{ borderBottom: '3px solid var(--black)', paddingBottom: '10px', marginBottom: '10px' }}>
+                <Link to="/teams" style={{ display: 'inline-block', padding: '4px 10px', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)', textDecoration: 'none', marginBottom: '5px' }}>Back to Teams</Link>
                 <h2 style={{ margin: '5px 0' }}>{team.name} - Chat</h2>
                 <div style={{ fontSize: '0.85em' }}>
                     <span style={{ marginRight: '15px' }}>Event: {team.event?.name}</span>
                     <span>Online: {onlineUsers.length} / {team.members.length}
-                        {onlineUsers.length > 0 && <span style={{ color: '#c1ffca', marginLeft: '5px' }}>●</span>}
+                        {onlineUsers.length > 0 && <span style={{ color: 'var(--green)', marginLeft: '5px' }}>●</span>}
                     </span>
                 </div>
                 <div style={{ display: 'flex', gap: '8px', marginTop: '5px', flexWrap: 'wrap' }}>
                     {team.members.map(m => (
                         <span key={m._id} style={{
                             fontSize: '0.8em', padding: '2px 8px', fontWeight: 'bold',
-                            backgroundColor: onlineUsers.includes(m._id) ? '#c1ffca' : '#ffd6a5',
-                            border: '1px solid #000'
+                            backgroundColor: onlineUsers.includes(m._id) ? 'var(--green)' : 'var(--gray-light)',
+                            border: '1px solid var(--black)'
                         }}>{m.firstName}</span>
                     ))}
                 </div>
             </div>
 
             {/* Messages */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '10px', backgroundColor: '#f3e8ff', border: '2px solid #000' }}>
+            <div style={{ flex: 1, overflowY: 'auto', padding: '10px', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)' }}>
                 {messages.length === 0 ? (
                     <p style={{ textAlign: 'center' }}>No messages yet. Start the conversation!</p>
                 ) : (
@@ -128,20 +128,20 @@ const TeamChat = () => {
                                 const url = msg.fileUrl.startsWith('http') ? msg.fileUrl : `${API}${msg.fileUrl}`;
                                 return (
                                     <div>
-                                        <a href={url} target="_blank" rel="noreferrer" style={{ color: '#000', fontWeight: 'bold', wordBreak: 'break-all' }}>
-                                            📎 {msg.fileName || msg.message || 'Download File'}
+                                        <a href={url} target="_blank" rel="noreferrer" style={{ color: 'var(--black)', fontWeight: 'bold', wordBreak: 'break-all' }}>
+                                            {msg.fileName || msg.message || 'Download File'}
                                         </a>
                                     </div>
                                 );
                             }
                             if (msg.type === 'link') {
-                                return <a href={msg.message} target="_blank" rel="noreferrer" style={{ color: '#0066cc', wordBreak: 'break-all' }}>🔗 {msg.message}</a>;
+                                return <a href={msg.message} target="_blank" rel="noreferrer" style={{ color: 'var(--black)', textDecoration: 'underline', wordBreak: 'break-all' }}>{msg.message}</a>;
                             }
                             // Auto-linkify URLs within text messages
                             const urlRegex = /(https?:\/\/[^\s]+)/g;
                             const parts = msg.message.split(urlRegex);
                             if (parts.length > 1) {
-                                return <div>{parts.map((part, i) => urlRegex.test(part) ? <a key={i} href={part} target="_blank" rel="noreferrer" style={{ color: '#0066cc', wordBreak: 'break-all' }}>{part}</a> : part)}</div>;
+                                return <div>{parts.map((part, i) => urlRegex.test(part) ? <a key={i} href={part} target="_blank" rel="noreferrer" style={{ color: 'var(--black)', textDecoration: 'underline', wordBreak: 'break-all' }}>{part}</a> : part)}</div>;
                             }
                             return <div>{msg.message}</div>;
                         };
@@ -149,8 +149,8 @@ const TeamChat = () => {
                             <div key={msg._id} style={{ display: 'flex', justifyContent: isMe ? 'flex-end' : 'flex-start', marginBottom: '8px' }}>
                                 <div style={{
                                     maxWidth: '70%', padding: '8px 12px',
-                                    backgroundColor: isMe ? '#d0b4f4' : '#fff9e0',
-                                    border: '2px solid #000'
+                                    backgroundColor: isMe ? 'var(--purple)' : 'var(--yellow-light)',
+                                    border: '2px solid var(--black)'
                                 }}>
                                     {!isMe && <div style={{ fontSize: '0.75em', marginBottom: '3px', fontWeight: 'bold' }}>{msg.sender?.firstName || 'Unknown'}</div>}
                                     {renderContent()}
@@ -174,8 +174,8 @@ const TeamChat = () => {
             <form onSubmit={sendMessage} style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
                 <input type="text" value={newMessage} onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }} placeholder="Type a message or paste a link..." style={{ flex: 1, fontSize: '1em' }} />
                 <input type="file" ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} />
-                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} style={{ padding: '6px 10px', fontSize: '1.1em', backgroundColor: '#ffd6a5', border: '2px solid #000', cursor: 'pointer' }} title="Share a file">
-                    {uploading ? '⏳' : '📎'}
+                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} style={{ padding: '6px 10px', fontSize: '1.1em', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)', cursor: 'pointer' }} title="Share a file">
+                    {uploading ? 'uploading' : 'attach'}
                 </button>
                 <button type="submit">Send</button>
             </form>

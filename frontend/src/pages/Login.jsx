@@ -34,7 +34,7 @@ const Login = () => {
   return (
     <div style={{ padding: '40px 20px', minHeight: '80vh' }}>
       <h1>Login</h1>
-      {error && <p style={{ padding: '10px', backgroundColor: '#ff7676', border: '2px solid #000', maxWidth: '350px', margin: '0 auto 15px auto' }}>{error}</p>}
+      {error && <p style={{ padding: '10px', backgroundColor: 'var(--red)', border: '2px solid var(--black)', maxWidth: '350px', margin: '0 auto 15px auto' }}>{error}</p>}
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '350px', margin: '0 auto', gap: '10px' }}>
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />

@@ -107,20 +107,20 @@ const EditEvent = () => {
         <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', textAlign: 'left' }}>
             <h1>Edit Event</h1>
             {message.text && (
-                <p style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000', fontWeight: 'bold' }}>{message.text}</p>
+                <p style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', fontWeight: 'bold' }}>{message.text}</p>
             )}
             {!isDraft && !isOngoingOrLocked && (
-                <div style={{ padding: '10px', backgroundColor: '#fdef26', border: '2px solid #000', marginBottom: '20px' }}>
+                <div style={{ padding: '10px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', marginBottom: '20px' }}>
                     <strong>Note:</strong> This event is Published. Only description, deadline, limit, tags and status can be edited.
                 </div>
             )}
             {isOngoingOrLocked && (
-                <div style={{ padding: '10px', backgroundColor: '#ff7676', border: '2px solid #000', marginBottom: '20px', fontWeight: 'bold' }}>
+                <div style={{ padding: '10px', backgroundColor: 'var(--red)', border: '2px solid var(--black)', marginBottom: '20px', fontWeight: 'bold' }}>
                     <strong>Restricted:</strong> This event is {originalStatus}. Only the status field can be changed.
                 </div>
             )}
             {hasRegistrations && (
-                <div style={{ padding: '10px', backgroundColor: '#ff7676', border: '2px solid #000', marginBottom: '20px', fontWeight: 'bold' }}>
+                <div style={{ padding: '10px', backgroundColor: 'var(--red)', border: '2px solid var(--black)', marginBottom: '20px', fontWeight: 'bold' }}>
                     <strong>Warning:</strong> This event has registrations. Custom form fields are locked.
                 </div>
             )}
@@ -136,11 +136,11 @@ const EditEvent = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                     <div>
                         <label>Event Type</label>
-                        <input type="text" value={formData.type} disabled style={{ backgroundColor: '#f3e8ff' }} />
+                        <input type="text" value={formData.type} disabled style={{ backgroundColor: 'var(--gray-light)' }} />
                     </div>
                     <div>
                         <label>Eligibility</label>
-                        <input type="text" value={formData.eligibility} disabled={!isDraft || isOngoingOrLocked} style={{ backgroundColor: isDraft && !isOngoingOrLocked ? '#efefe2' : '#f3e8ff' }} />
+                        <input type="text" value={formData.eligibility} disabled={!isDraft || isOngoingOrLocked} style={{ backgroundColor: isDraft && !isOngoingOrLocked ? 'var(--white)' : 'var(--gray-light)' }} />
                     </div>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px' }}>
@@ -161,7 +161,7 @@ const EditEvent = () => {
                     </div>
                     <div>
                         <label>Fee</label>
-                        <input type="number" name="fee" value={formData.fee} disabled={!isDraft || isOngoingOrLocked} style={{ backgroundColor: isDraft && !isOngoingOrLocked ? '#efefe2' : '#f3e8ff' }} />
+                        <input type="number" name="fee" value={formData.fee} disabled={!isDraft || isOngoingOrLocked} style={{ backgroundColor: isDraft && !isOngoingOrLocked ? 'var(--white)' : 'var(--gray-light)' }} />
                     </div>
                 </div>
                 <div>

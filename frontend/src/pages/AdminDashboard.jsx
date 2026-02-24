@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "40px" }}>
         {statLabels.map((label, i) => (
-          <div key={label} style={{ padding: "20px", backgroundColor: '#b3f6ff', border: "2px solid #000", textAlign: "center" }}>
+          <div key={label} style={{ padding: "20px", backgroundColor: 'var(--cyan)', border: "2px solid var(--black)", textAlign: "center" }}>
             <h3>{label}</h3>
             <p style={{ fontSize: "2.5em", margin: 0, fontWeight: 'bold' }}>{statValues[i]}</p>
           </div>
@@ -39,11 +39,11 @@ const AdminDashboard = () => {
 
       <div style={{ display: "grid", gap: "20px" }}>
         <Link to="/admin/organizers" style={{
-          display: "block", padding: "20px", backgroundColor: "#f3e8ff",
-          border: "2px solid #000", textDecoration: "none", color: "#000",
+          display: "block", padding: "20px", backgroundColor: "var(--purple)",
+          border: "2px solid var(--black)", textDecoration: "none", color: "var(--black)",
           fontWeight: "bold", textAlign: "center", fontSize: '1.1em'
         }}>
-          Manage Organizers &rarr;
+          Manage Organizers
         </Link>
       </div>
     </div>

@@ -68,21 +68,21 @@ const CreateEvent = () => {
         } catch (e) { setMessage({ text: 'Server error.', type: 'error' }); }
     };
 
-    const inputStyle = { width: '100%', padding: '8px', boxSizing: 'border-box', border: '2px solid #000', backgroundColor: '#efefe2' };
-    const labelStyle = { display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '0.9em', color: '#000' };
+    const inputStyle = { width: '100%', padding: '8px', boxSizing: 'border-box', border: '2px solid var(--black)' };
+    const labelStyle = { display: 'block', marginBottom: '4px', fontWeight: 'bold', fontSize: '0.9em', color: 'var(--black)' };
     const needsOptions = (t) => t === 'dropdown' || t === 'radio' || t === 'checkbox';
 
     return (
-        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', backgroundColor: '#fff9e0', minHeight: '100vh' }}>
-            <h1 style={{ color: '#000' }}>Create New Event</h1>
+        <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', minHeight: '100vh' }}>
+            <h1 style={{ color: 'var(--black)' }}>Create New Event</h1>
 
             {message.text && (
-                <p style={{ padding: '10px', margin: '0 0 15px 0', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', color: '#000', border: '2px solid #000' }}>{message.text}</p>
+                <p style={{ padding: '10px', margin: '0 0 15px 0', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)' }}>{message.text}</p>
             )}
 
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '20px' }}>
                 
-                <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#f3e8ff' }}>
+                <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--white)' }}>
                     <h3 style={{ marginTop: 0 }}>Basic Details</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                         <div><label style={labelStyle}>Event Name *</label><input type="text" name="name" value={formData.name} onChange={handleChange} required style={inputStyle} /></div>
@@ -120,32 +120,32 @@ const CreateEvent = () => {
                     )}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '15px' }}>
                         <div><label style={labelStyle}>Tags * (comma separated)</label><input type="text" name="tags" value={formData.tags} onChange={handleChange} required style={inputStyle} placeholder="e.g. tech, fun, coding" /></div>
-                        <div><label style={labelStyle}>Organizer ID</label><input type="text" value={organizerProfile?.organizerId || 'Loading...'} disabled style={{ ...inputStyle, backgroundColor: '#fdef26' }} /></div>
+                        <div><label style={labelStyle}>Organizer ID</label><input type="text" value={organizerProfile?.organizerId || 'Loading...'} disabled style={{ ...inputStyle, backgroundColor: 'var(--yellow)' }} /></div>
                     </div>
                 </div>
 
                 {/* Form Builder */}
-                <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#ffd6a5' }}>
+                <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--white)' }}>
                     <h3 style={{ marginTop: 0 }}>Registration Form Builder</h3>
-                    <p style={{ fontSize: '0.9em', color: '#000', marginTop: 0 }}>Add custom questions for participants.</p>
+                    <p style={{ fontSize: '0.9em', color: 'var(--black)', marginTop: 0 }}>Add custom questions for participants.</p>
                     
                     {customForm.map((field, index) => (
-                        <div key={index} style={{ border: '2px solid #000', padding: '15px', marginBottom: '10px', backgroundColor: '#b3f6ff' }}>
+                        <div key={index} style={{ border: '2px solid var(--black)', padding: '15px', marginBottom: '10px', backgroundColor: 'var(--gray-light)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                                 <strong>Field #{index + 1}</strong>
                                 <div style={{ display: 'flex', gap: '5px' }}>
-                                    <button type="button" onClick={() => moveFieldUp(index)} disabled={index === 0} style={{ padding: '4px 8px', backgroundColor: '#fdef26', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Up</button>
-                                    <button type="button" onClick={() => moveFieldDown(index)} disabled={index === customForm.length - 1} style={{ padding: '4px 8px', backgroundColor: '#fdef26', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Down</button>
-                                    <button type="button" onClick={() => removeFormField(index)} style={{ color: '#000', backgroundColor: '#ff7676', border: '2px solid #000', padding: '4px 10px', cursor: 'pointer', fontWeight: 'bold' }}>Remove</button>
+                                    <button type="button" onClick={() => moveFieldUp(index)} disabled={index === 0} style={{ padding: '4px 8px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Up</button>
+                                    <button type="button" onClick={() => moveFieldDown(index)} disabled={index === customForm.length - 1} style={{ padding: '4px 8px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>Down</button>
+                                    <button type="button" onClick={() => removeFormField(index)} style={{ color: 'var(--black)', backgroundColor: 'var(--red)', border: '2px solid var(--black)', padding: '4px 10px', cursor: 'pointer', fontWeight: 'bold' }}>Remove</button>
                                 </div>
                             </div>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 150px 80px', gap: '10px', marginBottom: '10px' }}>
                                 <div><label style={{ fontSize: '0.85em', display: 'block', marginBottom: '2px' }}>Question / Label</label>
-                                    <input type="text" placeholder="e.g. What is your T-shirt size?" value={field.label} onChange={(e) => updateFormField(index, 'label', e.target.value)} style={{ width: '100%', padding: '6px', border: '2px solid #000', boxSizing: 'border-box', backgroundColor: '#efefe2' }} />
+                                    <input type="text" placeholder="e.g. What is your T-shirt size?" value={field.label} onChange={(e) => updateFormField(index, 'label', e.target.value)} style={{ width: '100%', padding: '6px', border: '2px solid var(--black)', boxSizing: 'border-box' }} />
                                 </div>
                                 <div><label style={{ fontSize: '0.85em', display: 'block', marginBottom: '2px' }}>Field Type</label>
                                     <select value={field.type} onChange={(e) => { updateFormField(index, 'type', e.target.value); if (!needsOptions(e.target.value)) updateFormField(index, 'options', []); }}
-                                        style={{ width: '100%', padding: '6px', border: '2px solid #000', backgroundColor: '#efefe2' }}>
+                                        style={{ width: '100%', padding: '6px', border: '2px solid var(--black)' }}>
                                         <option value="text">Text Input</option><option value="number">Number</option><option value="dropdown">Dropdown</option><option value="radio">Radio Buttons</option><option value="checkbox">Checkboxes</option><option value="file">File Upload</option>
                                     </select>
                                 </div>
@@ -155,53 +155,53 @@ const CreateEvent = () => {
                             </div>
 
                             {needsOptions(field.type) && (
-                                <div style={{ marginTop: '10px', padding: '10px', border: '2px solid #000', backgroundColor: '#b3f6ff' }}>
+                                <div style={{ marginTop: '10px', padding: '10px', border: '2px solid var(--black)', backgroundColor: 'var(--gray-light)' }}>
                                     <label style={{ fontSize: '0.85em', display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>Options for {field.type}:</label>
                                     {(field.options || []).map((opt, optIdx) => (
                                         <div key={optIdx} style={{ display: 'flex', gap: '5px', marginBottom: '5px', alignItems: 'center' }}>
                                             <span style={{ minWidth: '20px', fontSize: '0.85em' }}>{optIdx + 1}.</span>
                                             <input type="text" value={opt} onChange={(e) => updateOption(index, optIdx, e.target.value)} placeholder={`Option ${optIdx + 1}`}
-                                                style={{ flex: 1, padding: '5px', border: '2px solid #000', boxSizing: 'border-box', backgroundColor: '#efefe2' }} />
-                                            <button type="button" onClick={() => removeOption(index, optIdx)} style={{ padding: '4px 8px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>X</button>
+                                                style={{ flex: 1, padding: '5px', border: '2px solid var(--black)', boxSizing: 'border-box' }} />
+                                            <button type="button" onClick={() => removeOption(index, optIdx)} style={{ padding: '4px 8px', backgroundColor: 'var(--red)', color: 'var(--black)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>X</button>
                                         </div>
                                     ))}
-                                    <button type="button" onClick={() => addOption(index)} style={{ padding: '4px 12px', backgroundColor: '#fdef26', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold', marginTop: '5px' }}>+ Add Option</button>
+                                    <button type="button" onClick={() => addOption(index)} style={{ padding: '4px 12px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold', marginTop: '5px' }}>+ Add Option</button>
                                 </div>
                             )}
 
                         </div>
                     ))}
-                    <button type="button" onClick={addFormField} style={{ padding: '8px 16px', backgroundColor: '#fdef26', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>+ Add Question</button>
+                    <button type="button" onClick={addFormField} style={{ padding: '8px 16px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>+ Add Question</button>
                 </div>
 
                 {formData.type === 'Merchandise' && (
-                    <div style={{ padding: '20px', border: '2px solid #000', backgroundColor: '#e8ccff' }}>
+                    <div style={{ padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--purple)' }}>
                         <h3 style={{ marginTop: 0 }}>Merchandise Items</h3>
                         {merchandiseItems.length > 0 && (
                             <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '15px' }}>
-                                <thead><tr style={{ backgroundColor: '#fdef26' }}>
-                                    <th style={{ padding: '8px', border: '2px solid #000' }}>Item Name</th>
-                                    <th style={{ padding: '8px', border: '2px solid #000', width: '100px' }}>Price</th>
-                                    <th style={{ padding: '8px', border: '2px solid #000', width: '80px' }}>Stock</th>
-                                    <th style={{ padding: '8px', border: '2px solid #000', width: '90px' }}>Buy Limit</th>
-                                    <th style={{ padding: '8px', border: '2px solid #000' }}>Description</th>
-                                    <th style={{ padding: '8px', border: '2px solid #000', width: '40px' }}></th>
+                                <thead><tr style={{ backgroundColor: 'var(--yellow)' }}>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)' }}>Item Name</th>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)', width: '100px' }}>Price</th>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)', width: '80px' }}>Stock</th>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)', width: '90px' }}>Buy Limit</th>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)' }}>Description</th>
+                                    <th style={{ padding: '8px', border: '2px solid var(--black)', width: '40px' }}></th>
                                 </tr></thead>
                                 <tbody>{merchandiseItems.map((item, i) => (
-                                    <tr key={i}><td style={{ padding: '4px', border: '1px solid #000' }}><input type="text" placeholder="e.g. T-Shirt" value={item.name} onChange={(e) => updateMerchItem(i, 'name', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
-                                    <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" value={item.price} onChange={(e) => updateMerchItem(i, 'price', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
-                                    <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" value={item.stock} onChange={(e) => updateMerchItem(i, 'stock', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
-                                    <td style={{ padding: '4px', border: '1px solid #000' }}><input type="number" min="0" placeholder="0=no limit" value={item.purchaseLimit} onChange={(e) => updateMerchItem(i, 'purchaseLimit', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
-                                    <td style={{ padding: '4px', border: '1px solid #000' }}><input type="text" value={item.description} onChange={(e) => updateMerchItem(i, 'description', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
-                                    <td style={{ padding: '4px', border: '1px solid #000', textAlign: 'center' }}><button type="button" onClick={() => removeMerchItem(i)} style={{ backgroundColor: '#ff7676', border: '2px solid #000', padding: '4px 8px', cursor: 'pointer', fontWeight: 'bold' }}>X</button></td></tr>
+                                    <tr key={i}><td style={{ padding: '4px', border: '1px solid var(--black)' }}><input type="text" placeholder="e.g. T-Shirt" value={item.name} onChange={(e) => updateMerchItem(i, 'name', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid var(--black)' }}><input type="number" value={item.price} onChange={(e) => updateMerchItem(i, 'price', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid var(--black)' }}><input type="number" value={item.stock} onChange={(e) => updateMerchItem(i, 'stock', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid var(--black)' }}><input type="number" min="0" placeholder="0=no limit" value={item.purchaseLimit} onChange={(e) => updateMerchItem(i, 'purchaseLimit', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid var(--black)' }}><input type="text" value={item.description} onChange={(e) => updateMerchItem(i, 'description', e.target.value)} style={{ ...inputStyle, width: '100%' }} /></td>
+                                    <td style={{ padding: '4px', border: '1px solid var(--black)', textAlign: 'center' }}><button type="button" onClick={() => removeMerchItem(i)} style={{ backgroundColor: 'var(--red)', border: '2px solid var(--black)', padding: '4px 8px', cursor: 'pointer', fontWeight: 'bold' }}>X</button></td></tr>
                                 ))}</tbody>
                             </table>
                         )}
-                        <button type="button" onClick={addMerchItem} style={{ padding: '8px 16px', backgroundColor: '#fdef26', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>+ Add Item</button>
+                        <button type="button" onClick={addMerchItem} style={{ padding: '8px 16px', backgroundColor: 'var(--yellow)', border: '2px solid var(--black)', cursor: 'pointer', fontWeight: 'bold' }}>+ Add Item</button>
                     </div>
                 )}
 
-                <div><button type="submit" style={{ padding: '15px 30px', backgroundColor: '#ff6a3d', color: '#000', border: '2px solid #000', fontSize: '1.2em', cursor: 'pointer', fontWeight: 'bold' }}>Create Event</button></div>
+                <div><button type="submit" style={{ padding: '15px 30px', fontSize: '1.2em' }}>Create Event</button></div>
             </form>
         </div>
     );

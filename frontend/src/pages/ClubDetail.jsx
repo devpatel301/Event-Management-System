@@ -20,11 +20,11 @@ const ClubDetail = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', textAlign: 'left' }}>
-      <Link to="/clubs" style={{ display: 'inline-block', marginBottom: '20px', padding: '6px 12px', backgroundColor: '#f3e8ff', border: '2px solid #000', textDecoration: 'none' }}>&lArr; Back to Clubs</Link>
+      <Link to="/clubs" style={{ display: 'inline-block', marginBottom: '20px', padding: '6px 12px', backgroundColor: 'var(--gray-light)', border: '2px solid var(--black)', textDecoration: 'none' }}>Back to Clubs</Link>
       
-      <div style={{ borderBottom: '3px solid #000', paddingBottom: '20px', marginBottom: '30px' }}>
+      <div style={{ borderBottom: '3px solid var(--black)', paddingBottom: '20px', marginBottom: '30px' }}>
         <h1 style={{ margin: '0 0 10px 0' }}>{organizer.name}</h1>
-        <p style={{ fontSize: '1.2em', fontWeight: 'bold', backgroundColor: '#d0b4f4', display: 'inline-block', padding: '4px 12px', border: '2px solid #000' }}>{organizer.category}</p>
+        <p style={{ fontSize: '1.2em', fontWeight: 'bold', backgroundColor: 'var(--purple)', display: 'inline-block', padding: '4px 12px', border: '2px solid var(--black)' }}>{organizer.category}</p>
         <p>{organizer.desc}</p>
         <p><strong>Contact:</strong> <a href={`mailto:${organizer.email}`}>{organizer.email}</a></p>
       </div>
@@ -33,7 +33,7 @@ const ClubDetail = () => {
       {upcomingEvents.length === 0 ? <p>No upcoming events.</p> : (
         <div style={{ display: 'grid', gap: '15px', marginBottom: '40px' }}>
           {upcomingEvents.map(event => (
-            <div key={event._id} style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#ffd6a5' }}>
+            <div key={event._id} style={{ border: '2px solid var(--black)', padding: '15px', backgroundColor: 'var(--white)' }}>
               <h3><Link to={`/events/${event._id}`}>{event.name}</Link></h3>
               <p>{new Date(event.startDate).toLocaleDateString()} | {event.type}</p>
             </div>
@@ -45,7 +45,7 @@ const ClubDetail = () => {
       {pastEvents.length === 0 ? <p>No past events.</p> : (
         <div style={{ display: 'grid', gap: '15px' }}>
           {pastEvents.map(event => (
-            <div key={event._id} style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#f3e8ff', opacity: 0.7 }}>
+            <div key={event._id} style={{ border: '2px solid var(--black)', padding: '15px', backgroundColor: 'var(--gray-light)', opacity: 0.7 }}>
               <h3>{event.name}</h3>
               <p>{new Date(event.startDate).toLocaleDateString()} | {event.type}</p>
             </div>

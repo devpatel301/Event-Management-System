@@ -195,20 +195,20 @@ const EventDetails = () => {
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', textAlign: 'left' }}>
       {user && event.organizer && user._id === event.organizer._id ? (
-        <button onClick={() => navigate('/organizer/dashboard')} style={{ marginBottom: '20px', cursor: 'pointer', padding: '8px 16px', border: '2px solid #000', backgroundColor: '#fdef26', fontWeight: 'bold' }}>&lArr; Back to Dashboard</button>
+        <button onClick={() => navigate('/organizer/dashboard')} style={{ marginBottom: '20px', cursor: 'pointer', padding: '8px 16px', border: '2px solid var(--black)', backgroundColor: 'var(--yellow)', fontWeight: 'bold' }}>Back to Dashboard</button>
       ) : (
-        <button onClick={() => navigate('/events')} style={{ marginBottom: '20px', cursor: 'pointer', padding: '8px 16px', border: '2px solid #000', backgroundColor: '#f3e8ff' }}>Back to Events</button>
+        <button onClick={() => navigate('/events')} style={{ marginBottom: '20px', cursor: 'pointer', padding: '8px 16px', border: '2px solid var(--black)', backgroundColor: 'var(--gray-light)' }}>Back to Events</button>
       )}
       
-      <div style={{ border: '2px solid #000', padding: '20px', backgroundColor: '#f3e8ff' }}>
+      <div style={{ border: '2px solid var(--black)', padding: '20px', backgroundColor: 'var(--white)' }}>
         <h1 style={{ marginTop: 0 }}>{event.name}</h1>
-        <p style={{ margin: '5px 0' }}>Organized by: <strong>{organizerName}</strong>{event.organizer && event.organizer.organizerId && <span style={{ backgroundColor: '#fdef26', padding: '1px 6px', marginLeft: '5px', border: '1px solid #000' }}>ID: {event.organizer.organizerId}</span>}</p>
+        <p style={{ margin: '5px 0' }}>Organized by: <strong>{organizerName}</strong>{event.organizer && event.organizer.organizerId && <span style={{ backgroundColor: 'var(--yellow)', padding: '1px 6px', marginLeft: '5px', border: '1px solid var(--black)' }}>ID: {event.organizer.organizerId}</span>}</p>
         
         {/* Tags */}
         {event.tags && event.tags.length > 0 && (
           <div style={{ margin: '10px 0' }}>
             {event.tags.map((tag, i) => (
-              <span key={i} style={{ display: 'inline-block', padding: '3px 10px', backgroundColor: '#d0b4f4', border: '2px solid #000', marginRight: '5px', marginBottom: '5px', fontSize: '0.85em', fontWeight: 'bold' }}>
+              <span key={i} style={{ display: 'inline-block', padding: '3px 10px', backgroundColor: 'var(--purple)', border: '2px solid var(--black)', marginRight: '5px', marginBottom: '5px', fontSize: '0.85em', fontWeight: 'bold' }}>
                 {tag}
               </span>
             ))}
@@ -229,7 +229,7 @@ const EventDetails = () => {
             <p><strong>Status:</strong> {event.status}</p>
             {event.registrationLimit > 0 && (
               <p><strong>Spots:</strong> {(event.registeredCount || 0)} / {event.registrationLimit}
-                {isFull && <span style={{ color: '#000', marginLeft: '10px', backgroundColor: '#ff7676', padding: '1px 6px', border: '1px solid #000' }}>(Full)</span>}
+                {isFull && <span style={{ color: 'var(--black)', marginLeft: '10px', backgroundColor: 'var(--red)', padding: '1px 6px', border: '1px solid var(--black)' }}>(Full)</span>}
               </p>
             )}
           </div>
@@ -240,15 +240,15 @@ const EventDetails = () => {
 
         {/* Merchandise Items Selection - Hidden for Organizer */}
         {event.type === 'Merchandise' && event.merchandiseItems && event.merchandiseItems.length > 0 && !isRegistered && !isDeadlinePassed && !isFull && (!user || !event.organizer || user._id !== event.organizer._id) && (
-          <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#e8ccff', border: '2px solid #000' }}>
+          <div style={{ marginTop: '30px', padding: '20px', backgroundColor: 'var(--purple)', border: '2px solid var(--black)' }}>
             <h3 style={{ marginTop: 0 }}>Select Merchandise</h3>
             <div style={{ display: 'grid', gap: '10px' }}>
               {event.merchandiseItems.map((item) => (
                 <label key={item._id} style={{ 
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '12px', border: selectedMerchId === item._id ? '3px solid #000' : '2px solid #000', 
+                  padding: '12px', border: selectedMerchId === item._id ? '3px solid var(--black)' : '2px solid var(--black)', 
                   cursor: item.stock > 0 ? 'pointer' : 'not-allowed',
-                  opacity: item.stock > 0 ? 1 : 0.5, backgroundColor: selectedMerchId === item._id ? '#fdef26' : '#ffd6a5'
+                  opacity: item.stock > 0 ? 1 : 0.5, backgroundColor: selectedMerchId === item._id ? 'var(--yellow)' : 'var(--white)'
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <input type="radio" name="merchItem" disabled={item.stock <= 0} checked={selectedMerchId === item._id} onChange={() => setSelectedMerchItem(item)} />
@@ -259,7 +259,7 @@ const EventDetails = () => {
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ fontWeight: 'bold' }}>Rs. {item.price}</div>
-                    <div style={{ fontSize: '0.85em', fontWeight: 'bold', backgroundColor: item.stock > 0 ? '#c1ffca' : '#ff7676', padding: '1px 6px', border: '1px solid #000' }}>
+                    <div style={{ fontSize: '0.85em', fontWeight: 'bold', backgroundColor: item.stock > 0 ? 'var(--green)' : 'var(--red)', padding: '1px 6px', border: '1px solid var(--black)' }}>
                       {item.stock > 0 ? `${item.stock} in stock` : 'Out of stock'}
                     </div>
                   </div>
@@ -277,12 +277,12 @@ const EventDetails = () => {
 
         {/* Custom Form Fields - Hidden for Organizer */}
         {event.customForm && event.customForm.length > 0 && !isRegistered && !isDeadlinePassed && !isFull && (!user || !event.organizer || user._id !== event.organizer._id) && (
-          <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#ffd6a5', border: '2px solid #000' }}>
+          <div style={{ marginTop: '30px', padding: '20px', backgroundColor: 'var(--white)', border: '2px solid var(--black)' }}>
             <h3 style={{ marginTop: 0 }}>Additional Information Required</h3>
             {event.customForm.map((field, index) => (
               <div key={index} style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                  {field.label} {field.required && <span style={{ color: '#ff6a3d' }}>*</span>}
+                  {field.label} {field.required && <span style={{ color: 'var(--red)' }}>*</span>}
                 </label>
                 {field.type === 'text' && (
                   <input type="text" value={customFormData[field.label] || ''} onChange={(e) => setCustomFormData({...customFormData, [field.label]: e.target.value})} />
@@ -311,7 +311,7 @@ const EventDetails = () => {
                            setMessage({ text: 'Upload error', type: 'error' });
                         }
                      }} />
-                     {customFormData[field.label] && <span style={{ color: 'green' }}>✓ Uploaded</span>}
+                     {customFormData[field.label] && <span style={{ color: 'var(--black)' }}>Uploaded</span>}
                   </div>
                 )}
                 {field.type === 'number' && (
@@ -359,23 +359,23 @@ const EventDetails = () => {
         {message.text && (
           <p style={{ 
             marginTop: '15px', padding: '10px',
-            backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676',
-            color: '#000', fontWeight: 'bold',
-            border: '2px solid #000'
+            backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)',
+            color: 'var(--black)', fontWeight: 'bold',
+            border: '2px solid var(--black)'
           }}>{message.text}</p>
         )}
 
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
           {isRegistered ? (
-            <button disabled style={{ padding: '10px 20px', backgroundColor: '#c1ffca', opacity: 0.8 }}>
-              ✓ Already Registered
+            <button disabled style={{ padding: '10px 20px', backgroundColor: 'var(--green)', opacity: 0.8 }}>
+              Already Registered
             </button>
           ) : isDeadlinePassed ? (
-            <button disabled style={{ padding: '10px 20px', backgroundColor: '#ff7676', opacity: 0.8 }}>
+            <button disabled style={{ padding: '10px 20px', backgroundColor: 'var(--red)', opacity: 0.8 }}>
               Registration Closed
             </button>
           ) : isFull ? (
-            <button disabled style={{ padding: '10px 20px', backgroundColor: '#ffd6a5', opacity: 0.8 }}>
+            <button disabled style={{ padding: '10px 20px', backgroundColor: 'var(--gray-light)', opacity: 0.8 }}>
               Event Full
             </button>
           ) : (
@@ -387,7 +387,7 @@ const EventDetails = () => {
 
         <div style={{ marginTop: '15px', textAlign: 'center' }}>
           {isRegistered && (
-            <Link to={`/feedback/${id}`} style={{ display: 'inline-block', marginLeft: '10px', padding: '8px 16px', backgroundColor: '#ffd6a5', color: '#000', textDecoration: 'none', fontSize: '0.9em', border: '2px solid #000', fontWeight: 'bold' }}>
+            <Link to={`/feedback/${id}`} style={{ display: 'inline-block', marginLeft: '10px', padding: '8px 16px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', fontSize: '0.9em', border: '2px solid var(--black)', fontWeight: 'bold' }}>
               Give Feedback
             </Link>
           )}
@@ -395,7 +395,7 @@ const EventDetails = () => {
 
         {/* Hackathon Team Section */}
         {event.type === 'Hackathon' && user && user.role === 'participant' && (
-          <div style={{ marginTop: '25px', padding: '20px', border: '2px solid #000', backgroundColor: '#b3f6ff' }}>
+          <div style={{ marginTop: '25px', padding: '20px', border: '2px solid var(--black)', backgroundColor: 'var(--cyan)' }}>
             <h3 style={{ marginTop: 0 }}>Hackathon Team Registration</h3>
             <p style={{ fontSize: '0.9em' }}>
               Team size: {event.minTeamSize} - {event.maxTeamSize} members
@@ -403,17 +403,17 @@ const EventDetails = () => {
 
             {myTeam ? (
               <div>
-                <div style={{ padding: '15px', backgroundColor: '#b3f6ff', border: '2px solid #000', marginBottom: '10px' }}>
+                <div style={{ padding: '15px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)', marginBottom: '10px' }}>
                   <h4 style={{ margin: '0 0 8px 0' }}>{myTeam.name}</h4>
                   <p style={{ margin: '3px 0' }}>
                     <strong>Status:</strong>{' '}
-                    <span style={{ fontWeight: 'bold', backgroundColor: myTeam.status === 'registered' ? '#c1ffca' : '#fdef26', padding: '1px 6px', border: '1px solid #000' }}>
+                    <span style={{ fontWeight: 'bold', backgroundColor: myTeam.status === 'registered' ? 'var(--green)' : 'var(--yellow)', padding: '1px 6px', border: '1px solid var(--black)' }}>
                       {myTeam.status.toUpperCase()}
                     </span>
                   </p>
                   <p style={{ margin: '3px 0' }}>
                     <strong>Team Code:</strong>{' '}
-                    <span style={{ fontFamily: 'monospace', backgroundColor: '#fdef26', padding: '2px 6px', border: '1px solid #000' }}>{myTeam.teamCode}</span>
+                    <span style={{ fontFamily: 'monospace', backgroundColor: 'var(--yellow)', padding: '2px 6px', border: '1px solid var(--black)' }}>{myTeam.teamCode}</span>
                     <button onClick={() => navigator.clipboard.writeText(myTeam.teamCode)}
                       style={{ marginLeft: '8px', padding: '2px 8px', fontSize: '0.8em', cursor: 'pointer' }}>
                       Copy
@@ -428,16 +428,16 @@ const EventDetails = () => {
                     ))}
                   </ul>
                   {myTeam.status === 'forming' && (
-                    <p style={{ fontSize: '0.9em', backgroundColor: '#fdef26', padding: '6px', border: '1px solid #000' }}>
+                    <p style={{ fontSize: '0.9em', backgroundColor: 'var(--yellow)', padding: '6px', border: '1px solid var(--black)' }}>
                       Share the team code with your teammates to complete registration.
                     </p>
                   )}
                   {myTeam.status === 'registered' && (
-                    <p style={{ fontWeight: 'bold', backgroundColor: '#c1ffca', padding: '6px', border: '1px solid #000' }}>
+                    <p style={{ fontWeight: 'bold', backgroundColor: 'var(--green)', padding: '6px', border: '1px solid var(--black)' }}>
                       Team is complete! Tickets have been generated.
                     </p>
                   )}
-                  <Link to={`/teams/${myTeam._id}/chat`} style={{ display: 'inline-block', padding: '6px 12px', backgroundColor: '#ff6a3d', color: '#000', textDecoration: 'none', border: '2px solid #000', fontWeight: 'bold', marginTop: '10px' }}>Open Team Chat</Link>
+                  <Link to={`/teams/${myTeam._id}/chat`} style={{ display: 'inline-block', padding: '6px 12px', backgroundColor: 'var(--yellow)', color: 'var(--black)', textDecoration: 'none', border: '2px solid var(--black)', fontWeight: 'bold', marginTop: '10px' }}>Open Team Chat</Link>
                 </div>
               </div>
             ) : !isDeadlinePassed && !isFull ? (
@@ -451,7 +451,7 @@ const EventDetails = () => {
                     </button>
                   </div>
                 ) : (
-                  <div style={{ padding: '15px', backgroundColor: '#b3f6ff', border: '2px solid #000', marginBottom: '15px' }}>
+                  <div style={{ padding: '15px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)', marginBottom: '15px' }}>
                     <h4 style={{ marginTop: 0 }}>Create New Team</h4>
                     <div style={{ marginBottom: '10px' }}>
                       <label style={{ display: 'block', marginBottom: '4px' }}>Team Name:</label>
@@ -467,13 +467,13 @@ const EventDetails = () => {
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <button onClick={handleCreateTeam}>Create</button>
                       <button onClick={() => setShowTeamForm(false)}
-                        style={{ backgroundColor: '#ffd6a5' }}>Cancel</button>
+                        style={{ backgroundColor: 'var(--gray-light)' }}>Cancel</button>
                     </div>
                   </div>
                 )}
 
                 {/* Join Team */}
-                <div style={{ padding: '15px', backgroundColor: '#b3f6ff', border: '2px solid #000' }}>
+                <div style={{ padding: '15px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)' }}>
                   <h4 style={{ marginTop: 0 }}>Join Existing Team</h4>
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <input type="text" value={joinCode} onChange={(e) => setJoinCode(e.target.value)}
@@ -483,7 +483,7 @@ const EventDetails = () => {
                 </div>
               </div>
             ) : (
-              <p style={{ backgroundColor: '#ff7676', padding: '8px', border: '2px solid #000', fontWeight: 'bold' }}>Registration is closed for this event.</p>
+              <p style={{ backgroundColor: 'var(--red)', padding: '8px', border: '2px solid var(--black)', fontWeight: 'bold' }}>Registration is closed for this event.</p>
             )}
           </div>
         )}

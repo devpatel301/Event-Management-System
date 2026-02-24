@@ -42,8 +42,8 @@ const PasswordResetRequests = () => {
     const resolved = requests.filter(r => r.status !== 'Pending');
 
     const statusStyle = (status) => ({
-        display: 'inline-block', padding: '3px 10px', fontSize: '0.85em', fontWeight: 'bold', border: '1px solid #000',
-        backgroundColor: status === 'Approved' ? '#c1ffca' : status === 'Rejected' ? '#ff7676' : '#fdef26'
+        display: 'inline-block', padding: '3px 10px', fontSize: '0.85em', fontWeight: 'bold', border: '1px solid var(--black)',
+        backgroundColor: status === 'Approved' ? 'var(--green)' : status === 'Rejected' ? 'var(--red)' : 'var(--yellow)'
     });
 
     return (
@@ -51,14 +51,14 @@ const PasswordResetRequests = () => {
             <h1>Password Reset Requests</h1>
 
             {message.text && (
-                <div style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? '#c1ffca' : '#ff7676', border: '2px solid #000', fontWeight: 'bold' }}>{message.text}</div>
+                <div style={{ padding: '10px', marginBottom: '15px', backgroundColor: message.type === 'success' ? 'var(--green)' : 'var(--red)', border: '2px solid var(--black)', fontWeight: 'bold' }}>{message.text}</div>
             )}
 
             <h2>Pending Requests ({pending.length})</h2>
             {pending.length === 0 ? <p>No pending requests.</p> : (
                 <div style={{ display: 'grid', gap: '12px', marginBottom: '30px' }}>
                     {pending.map(req => (
-                        <div key={req._id} style={{ padding: '15px', border: '2px solid #000', backgroundColor: '#fdef26' }}>
+                        <div key={req._id} style={{ padding: '15px', border: '2px solid var(--black)', backgroundColor: 'var(--yellow)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                 <div>
                                     <h3 style={{ margin: '0 0 5px 0' }}>{req.organizer?.name || 'Unknown'}</h3>
@@ -67,8 +67,8 @@ const PasswordResetRequests = () => {
                                     <p style={{ margin: 0, fontSize: '0.85em' }}>Requested: {new Date(req.createdAt).toLocaleString()}</p>
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
-                                    <button onClick={() => handleApprove(req._id)} style={{ backgroundColor: '#c1ffca' }}>Approve</button>
-                                    <button onClick={() => handleReject(req._id)} style={{ backgroundColor: '#ff7676' }}>Reject</button>
+                                    <button onClick={() => handleApprove(req._id)} style={{ backgroundColor: 'var(--green)' }}>Approve</button>
+                                    <button onClick={() => handleReject(req._id)} style={{ backgroundColor: 'var(--red)' }}>Reject</button>
                                 </div>
                             </div>
                         </div>
@@ -77,14 +77,14 @@ const PasswordResetRequests = () => {
             )}
 
             {Object.keys(generatedPasswords).length > 0 && (
-                <div style={{ padding: '15px', backgroundColor: '#b3f6ff', border: '2px solid #000', marginBottom: '20px' }}>
+                <div style={{ padding: '15px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)', marginBottom: '20px' }}>
                     <h3 style={{ marginTop: 0 }}>Generated Passwords (share with organizer)</h3>
                     {Object.entries(generatedPasswords).map(([reqId, pwd]) => {
                         const req = requests.find(r => r._id === reqId);
                         return (
                             <p key={reqId} style={{ margin: '5px 0' }}>
                                 <strong>{req?.organizer?.name || 'Organizer'}:</strong>{' '}
-                                <span style={{ fontFamily: 'monospace', backgroundColor: '#fdef26', padding: '3px 8px', border: '1px solid #000' }}>{pwd}</span>
+                                <span style={{ fontFamily: 'monospace', backgroundColor: 'var(--yellow)', padding: '3px 8px', border: '1px solid var(--black)' }}>{pwd}</span>
                                 <button onClick={() => navigator.clipboard.writeText(pwd)} style={{ marginLeft: '8px', padding: '2px 8px', fontSize: '0.8em' }}>Copy</button>
                             </p>
                         );

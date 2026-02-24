@@ -39,42 +39,42 @@ const Ticket = () => {
   }, [id, user]);
 
   if (loading) return <div style={{ padding: '20px' }}>Loading Ticket...</div>;
-  if (error) return <div style={{ padding: '20px', backgroundColor: '#ff7676', border: '2px solid #000' }}>{error}</div>;
+  if (error) return <div style={{ padding: '20px', backgroundColor: 'var(--red)', border: '2px solid var(--black)' }}>{error}</div>;
   if (!ticket) return <div style={{ padding: '20px' }}>Ticket not found</div>;
 
   return (
     <div style={{ padding: '40px', textAlign: 'center', minHeight: '80vh' }}>
-      <button onClick={() => navigate('/dashboard')} style={{ marginBottom: '20px' }}>&lArr; Back to Dashboard</button>
+      <button onClick={() => navigate('/dashboard')} style={{ marginBottom: '20px' }}>Back to Dashboard</button>
       
       <div style={{ 
         maxWidth: '400px', 
         margin: '0 auto', 
-        backgroundColor: '#f3e8ff', 
+        backgroundColor: 'var(--gray-light)', 
         padding: '30px', 
-        border: '2px solid #000',
-        borderTop: '6px solid #fdef26'
+        border: '2px solid var(--black)',
+        borderTop: '6px solid var(--yellow)'
       }}>
         <h2 style={{ margin: '0 0 10px 0' }}>{ticket.event.name}</h2>
         <p style={{ fontSize: '0.9em' }}>{new Date(ticket.event.startDate).toLocaleString()}</p>
         
-        <hr style={{ margin: '20px 0', border: 'none', borderTop: '2px dashed #000' }} />
+        <hr style={{ margin: '20px 0', border: 'none', borderTop: '2px dashed var(--black)' }} />
         
         <div style={{ textAlign: 'left', marginBottom: '20px' }}>
           <p><strong>Attendee:</strong> {ticket.user.firstName} {ticket.user.lastName}</p>
           <p><strong>Email:</strong> {ticket.user.email}</p>
-          <p><strong>Ticket ID:</strong> <span style={{ fontFamily: 'monospace', backgroundColor: '#fdef26', padding: '2px 5px', border: '1px solid #000' }}>{ticket.ticketId}</span></p>
+          <p><strong>Ticket ID:</strong> <span style={{ fontFamily: 'monospace', backgroundColor: 'var(--yellow)', padding: '2px 5px', border: '1px solid var(--black)' }}>{ticket.ticketId}</span></p>
           <p><strong>Registration Date:</strong> {new Date(ticket.registrationDate || ticket.createdAt).toLocaleString()}</p>
-          <p><strong>Status:</strong> <span style={{ fontWeight: 'bold', backgroundColor: '#c1ffca', padding: '2px 8px', border: '1px solid #000' }}>{ticket.status}</span></p>
+          <p><strong>Status:</strong> <span style={{ fontWeight: 'bold', backgroundColor: 'var(--green)', padding: '2px 8px', border: '1px solid var(--black)' }}>{ticket.status}</span></p>
           
           {ticket.team && (
-            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#b3f6ff', border: '2px solid #000' }}>
+            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: 'var(--cyan)', border: '2px solid var(--black)' }}>
               <p style={{ fontWeight: 'bold', margin: '0 0 5px 0' }}>Team: {ticket.team.name}</p>
               <p style={{ margin: 0, fontSize: '0.9em' }}>Team Code: <span style={{ fontFamily: 'monospace' }}>{ticket.team.teamCode}</span></p>
             </div>
           )}
 
           {ticket.merchandiseDetails && (
-            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#e8ccff', border: '2px solid #000' }}>
+            <div style={{ marginTop: '15px', padding: '10px', backgroundColor: 'var(--purple)', border: '2px solid var(--black)' }}>
               <p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Merchandise Details:</p>
               {ticket.merchandiseDetails.size && <p>Size: {ticket.merchandiseDetails.size}</p>}
               {ticket.merchandiseDetails.color && <p>Color: {ticket.merchandiseDetails.color}</p>}
