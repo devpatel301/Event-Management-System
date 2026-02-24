@@ -12,10 +12,12 @@ const TeamChat = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [typingUsers, setTypingUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
     const messagesEndRef = useRef(null);
     const pollRef = useRef(null);
     const statusPollRef = useRef(null);
     const typingTimeoutRef = useRef(null);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         const fetchTeam = async () => { try { const r = await fetch(`${API}/api/teams/${teamId}`, { headers: { 'Authorization': `Bearer ${user.token}` } }); const d = await r.json(); if (r.ok) setTeam(d); } catch { console.error('Error'); } finally { setLoading(false); } };
@@ -47,7 +49,34 @@ const TeamChat = () => {
 
     const sendMessage = async (e) => {
         e.preventDefault(); if (!newMessage.trim()) return;
-        try { const r = await fetch(`${API}/api/chat/${teamId}/messages`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }, body: JSON.stringify({ message: newMessage.trim() }) }); const d = await r.json(); if (r.ok) { setMessages(prev => [...prev, d]); setNewMessage(''); } } catch { console.error('Send error'); }
+        // Auto-detect links
+        const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+        const isLink = urlRegex.test(newMessage.trim());
+        const payload = { message: newMessage.trim() };
+        if (isLink) payload.type = 'link';
+        try { const r = await fetch(`${API}/api/chat/${teamId}/messages`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }, body: JSON.stringify(payload) }); const d = await r.json(); if (r.ok) { setMessages(prev => [...prev, d]); setNewMessage(''); } } catch { console.error('Send error'); }
+    };
+
+    const handleFileUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setUploading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const uploadRes = await fetch(`${API}/api/upload`, { method: 'POST', headers: { 'Authorization': `Bearer ${user.token}` }, body: formData });
+            const uploadData = await uploadRes.json();
+            if (uploadRes.ok) {
+                const r = await fetch(`${API}/api/chat/${teamId}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` },
+                    body: JSON.stringify({ message: file.name, type: 'file', fileUrl: uploadData.filePath, fileName: file.name })
+                });
+                const d = await r.json();
+                if (r.ok) setMessages(prev => [...prev, d]);
+            } else { alert(uploadData.message || 'Upload failed'); }
+        } catch { console.error('Upload error'); }
+        finally { setUploading(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
     };
 
     const handleTyping = () => {
@@ -94,6 +123,28 @@ const TeamChat = () => {
                     messages.map(msg => {
                         const senderId = msg.sender && msg.sender._id ? msg.sender._id : msg.sender;
                         const isMe = senderId === user.userId;
+                        const renderContent = () => {
+                            if (msg.type === 'file' && msg.fileUrl) {
+                                const url = msg.fileUrl.startsWith('http') ? msg.fileUrl : `${API}${msg.fileUrl}`;
+                                return (
+                                    <div>
+                                        <a href={url} target="_blank" rel="noreferrer" style={{ color: '#000', fontWeight: 'bold', wordBreak: 'break-all' }}>
+                                            📎 {msg.fileName || msg.message || 'Download File'}
+                                        </a>
+                                    </div>
+                                );
+                            }
+                            if (msg.type === 'link') {
+                                return <a href={msg.message} target="_blank" rel="noreferrer" style={{ color: '#0066cc', wordBreak: 'break-all' }}>🔗 {msg.message}</a>;
+                            }
+                            // Auto-linkify URLs within text messages
+                            const urlRegex = /(https?:\/\/[^\s]+)/g;
+                            const parts = msg.message.split(urlRegex);
+                            if (parts.length > 1) {
+                                return <div>{parts.map((part, i) => urlRegex.test(part) ? <a key={i} href={part} target="_blank" rel="noreferrer" style={{ color: '#0066cc', wordBreak: 'break-all' }}>{part}</a> : part)}</div>;
+                            }
+                            return <div>{msg.message}</div>;
+                        };
                         return (
                             <div key={msg._id} style={{ display: 'flex', justifyContent: isMe ? 'flex-end' : 'flex-start', marginBottom: '8px' }}>
                                 <div style={{
@@ -102,7 +153,7 @@ const TeamChat = () => {
                                     border: '2px solid #000'
                                 }}>
                                     {!isMe && <div style={{ fontSize: '0.75em', marginBottom: '3px', fontWeight: 'bold' }}>{msg.sender?.firstName || 'Unknown'}</div>}
-                                    <div>{msg.message}</div>
+                                    {renderContent()}
                                     <div style={{ fontSize: '0.7em', textAlign: 'right', marginTop: '3px' }}>
                                         {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                     </div>
@@ -120,8 +171,12 @@ const TeamChat = () => {
                 </div>
             )}
 
-            <form onSubmit={sendMessage} style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                <input type="text" value={newMessage} onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }} placeholder="Type a message..." style={{ flex: 1, fontSize: '1em' }} />
+            <form onSubmit={sendMessage} style={{ display: 'flex', gap: '8px', marginTop: '8px', alignItems: 'center' }}>
+                <input type="text" value={newMessage} onChange={(e) => { setNewMessage(e.target.value); handleTyping(); }} placeholder="Type a message or paste a link..." style={{ flex: 1, fontSize: '1em' }} />
+                <input type="file" ref={fileInputRef} onChange={handleFileUpload} style={{ display: 'none' }} />
+                <button type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} style={{ padding: '6px 10px', fontSize: '1.1em', backgroundColor: '#ffd6a5', border: '2px solid #000', cursor: 'pointer' }} title="Share a file">
+                    {uploading ? '⏳' : '📎'}
+                </button>
                 <button type="submit">Send</button>
             </form>
         </div>

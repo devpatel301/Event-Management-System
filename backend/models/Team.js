@@ -11,6 +11,11 @@ const teamSchema = new mongoose.Schema({
         type: String,
         enum: ['forming', 'complete', 'registered'],
         default: 'forming'
+    },
+    lastReadAt: {
+        type: Map,
+        of: Date,
+        default: {}
     }
 }, { timestamps: true });
 

@@ -12,7 +12,14 @@ router.get('/organizer/all', protect, async (req, res) => {
             return res.status(403).json({ message: 'Not authorized' });
         }
 
-        const events = await Event.find({ organizer: req.user.id, status: 'Completed' }).select('_id name');
+        const now = new Date();
+        const events = await Event.find({
+            organizer: req.user.id,
+            $or: [
+                { status: { $in: ['Completed', 'Closed'] } },
+                { endDate: { $lt: now } }
+            ]
+        }).select('_id name');
         const eventIds = events.map(e => e._id);
         const eventMap = Object.fromEntries(events.map(e => [e._id.toString(), e.name]));
 

@@ -22,15 +22,18 @@ router.post('/:teamId/messages', protect, async (req, res) => {
         const team = await verifyTeamMember(req.params.teamId, req.user.id);
         if (!team) return res.status(403).json({ message: 'Not a team member' });
 
-        const { message } = req.body;
-        if (!message || !message.trim()) {
+        const { message, type, fileUrl, fileName } = req.body;
+        if ((!message || !message.trim()) && !fileUrl) {
             return res.status(400).json({ message: 'Message cannot be empty' });
         }
 
         const chatMessage = await ChatMessage.create({
             team: req.params.teamId,
             sender: req.user.id,
-            message: message.trim()
+            message: (message || '').trim() || (fileName || fileUrl || 'Shared a file'),
+            type: type || 'text',
+            fileUrl: fileUrl || undefined,
+            fileName: fileName || undefined
         });
 
         await chatMessage.populate('sender', 'firstName lastName');
@@ -64,6 +67,13 @@ router.get('/:teamId/messages', protect, async (req, res) => {
             .populate('sender', 'firstName lastName')
             .sort('timestamp')
             .limit(200);
+
+        // Mark as read
+        const team2 = await Team.findById(req.params.teamId);
+        if (team2) {
+            team2.lastReadAt.set(req.user.id, new Date());
+            await team2.save();
+        }
 
         // Update online status
         if (!onlineUsers[req.params.teamId]) onlineUsers[req.params.teamId] = {};
@@ -122,6 +132,29 @@ router.get('/:teamId/status', protect, async (req, res) => {
 
         res.json({ online, typing });
     } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// Get unread message counts for all user's teams
+router.get('/unread/counts', protect, async (req, res) => {
+    try {
+        const teams = await Team.find({ members: req.user.id });
+        const result = {};
+        for (const team of teams) {
+            const lastRead = team.lastReadAt?.get(req.user.id) || new Date(0);
+            const unreadCount = await ChatMessage.countDocuments({
+                team: team._id,
+                timestamp: { $gt: lastRead },
+                sender: { $ne: req.user.id }
+            });
+            if (unreadCount > 0) {
+                result[team._id.toString()] = unreadCount;
+            }
+        }
+        res.json(result);
+    } catch (err) {
+        console.error('Unread counts error:', err);
         res.status(500).json({ message: 'Server error' });
     }
 });

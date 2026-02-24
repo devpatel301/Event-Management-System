@@ -75,9 +75,11 @@ router.get('/profile', protect, async (req, res) => {
 
 router.put('/profile/password', protect, async (req, res) => {
     try {
+        if (req.user.role === 'organizer') {
+            return res.status(403).json({ message: 'Organizers must request a password reset from an admin.' });
+        }
         const { currentPassword, newPassword } = req.body;
-        const Collection = req.user.role === 'organizer' ? require('../models/Organizer') : User;
-        const user = await Collection.findById(req.user.id);
+        const user = await User.findById(req.user.id);
         const bcrypt = require('bcrypt');
 
         if (user && (await bcrypt.compare(currentPassword, user.password))) {

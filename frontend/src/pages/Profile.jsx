@@ -233,16 +233,19 @@ const Profile = () => {
         <div>
           <h3>Security Settings</h3>
           {pwMsg.text && <p style={msgStyle(pwMsg.type)}>{pwMsg.text}</p>}
-          {isOrganizer && <PasswordResetSection token={user.token} />}
-          <div style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#b3f6ff' }}>
-            <h4 style={{ marginTop: 0 }}>Change Password</h4>
-            <form onSubmit={updatePassword}>
-              <div style={{ marginBottom: '10px' }}><label>Current Password</label><input type="password" name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
-              <div style={{ marginBottom: '10px' }}><label>New Password</label><input type="password" name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
-              <div style={{ marginBottom: '10px' }}><label>Confirm New Password</label><input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
-              <button type="submit" style={{ padding: '8px 16px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Update Password</button>
-            </form>
-          </div>
+          {isOrganizer ? (
+            <PasswordResetSection token={user.token} />
+          ) : (
+            <div style={{ border: '2px solid #000', padding: '15px', backgroundColor: '#b3f6ff' }}>
+              <h4 style={{ marginTop: 0 }}>Change Password</h4>
+              <form onSubmit={updatePassword}>
+                <div style={{ marginBottom: '10px' }}><label>Current Password</label><input type="password" name="currentPassword" value={passwords.currentPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
+                <div style={{ marginBottom: '10px' }}><label>New Password</label><input type="password" name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
+                <div style={{ marginBottom: '10px' }}><label>Confirm New Password</label><input type="password" name="confirmPassword" value={passwords.confirmPassword} onChange={handlePasswordChange} style={fieldStyle} required /></div>
+                <button type="submit" style={{ padding: '8px 16px', backgroundColor: '#ff7676', color: '#000', border: '2px solid #000', cursor: 'pointer', fontWeight: 'bold' }}>Update Password</button>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </div>

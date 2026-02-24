@@ -6,10 +6,21 @@ import API from '../api';
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const [registrations, setRegistrations] = useState([]);
+  const [teams, setTeams] = useState([]);
+  const [unreadCounts, setUnreadCounts] = useState({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Upcoming');
 
-  useEffect(() => { if (user) fetchRegistrations(); }, [user]);
+  useEffect(() => {
+    if (user) { fetchRegistrations(); fetchTeams(); fetchUnread(); }
+  }, [user]);
+
+  // Poll unread counts every 10 seconds
+  useEffect(() => {
+    if (!user || teams.length === 0) return;
+    const interval = setInterval(fetchUnread, 10000);
+    return () => clearInterval(interval);
+  }, [user, teams]);
 
   const fetchRegistrations = async () => {
     try {
@@ -17,6 +28,22 @@ const Dashboard = () => {
       const data = await response.json();
       if (response.ok) setRegistrations(data);
     } catch (error) { console.error(error); } finally { setLoading(false); }
+  };
+
+  const fetchTeams = async () => {
+    try {
+      const r = await fetch(`${API}/api/teams/my`, { headers: { 'Authorization': `Bearer ${user.token}` } });
+      const d = await r.json();
+      if (r.ok) setTeams(d);
+    } catch (e) { console.error(e); }
+  };
+
+  const fetchUnread = async () => {
+    try {
+      const r = await fetch(`${API}/api/chat/unread/counts`, { headers: { 'Authorization': `Bearer ${user.token}` } });
+      const d = await r.json();
+      if (r.ok) setUnreadCounts(d);
+    } catch (e) { console.error(e); }
   };
 
   if (loading) return <div style={{ padding: '20px' }}>Loading Dashboard...</div>;
@@ -41,6 +68,39 @@ const Dashboard = () => {
   return (
     <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto', textAlign: 'left' }}>
       <h1>My Dashboard</h1>
+
+      {/* Teams Section */}
+      {teams.length > 0 && (
+        <div style={{ marginBottom: '30px' }}>
+          <h2 style={{ marginBottom: '10px' }}>My Teams</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '12px' }}>
+            {teams.map(team => {
+              const unread = unreadCounts[team._id] || 0;
+              return (
+                <Link key={team._id} to={`/teams/${team._id}/chat`} style={{ textDecoration: 'none', color: '#000' }}>
+                  <div style={{ border: '2px solid #000', padding: '12px', backgroundColor: '#b3f6ff', position: 'relative' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <h3 style={{ margin: '0 0 4px 0', fontSize: '1em' }}>{team.name}</h3>
+                      {unread > 0 && (
+                        <span style={{
+                          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                          minWidth: '20px', height: '20px', borderRadius: '50%',
+                          backgroundColor: '#ff3b3b', color: '#fff', fontSize: '0.75em',
+                          fontWeight: 'bold', padding: '0 5px'
+                        }}>{unread}</span>
+                      )}
+                    </div>
+                    <p style={{ margin: 0, fontSize: '0.85em' }}>{team.event?.name || 'Unknown Event'}</p>
+                    <p style={{ margin: '3px 0 0 0', fontSize: '0.8em', color: '#555' }}>
+                      {team.members.length} members · {team.status}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
       
       <div style={{ display: 'flex', borderBottom: '3px solid #000', marginBottom: '20px' }}>
         {['Upcoming', 'Normal', 'Merchandise', 'Completed', 'Cancelled'].map(tab => (

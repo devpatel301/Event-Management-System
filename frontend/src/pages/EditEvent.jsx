@@ -124,11 +124,6 @@ const EditEvent = () => {
                     <strong>Warning:</strong> This event has registrations. Custom form fields are locked.
                 </div>
             )}
-            {!hasRegistrations && (
-                <div style={{ padding: '10px', backgroundColor: '#b3f6ff', border: '2px solid #000', marginBottom: '20px' }}>
-                    <strong>Note:</strong> To edit Custom Forms or Merchandise, please delete and recreate the event (Edit feature coming soon).
-                </div>
-            )}
             <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '15px' }}>
                 <div>
                     <label>Event Name</label>
