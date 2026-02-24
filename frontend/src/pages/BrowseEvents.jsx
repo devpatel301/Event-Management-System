@@ -106,7 +106,7 @@ const BrowseEvents = () => {
             Trending Now
           </h2>
           <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '8px' }}>
-            {trendingEvents.map((event, i) => (
+            {trendingEvents.map((event) => (
               <div key={event._id} style={{ minWidth: '220px', maxWidth: '220px', border: '2px solid #000', backgroundColor: '#fff', padding: '12px', flexShrink: 0, position: 'relative' }}>
                 <p style={{ fontWeight: 'bold', margin: '0 0 4px 0', fontSize: '0.95rem', paddingRight: '28px' }}>{event.name}</p>
                 <p style={{ margin: '0 0 4px 0', fontSize: '0.8rem', color: '#444' }}>{event.organizer?.name}</p>
