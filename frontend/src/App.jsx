@@ -1,30 +1,35 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Onboarding from './pages/Onboarding';
-import BrowseEvents from './pages/BrowseEvents';
-import Navbar from './components/Navbar';
-import ProtectedRoute from './components/ProtectedRoute';
-import { AuthProvider } from './context/AuthContext';
-
-import EventDetails from './pages/EventDetails';
-import Ticket from './pages/Ticket';
-import Dashboard from './pages/Dashboard'; 
-import Profile from './pages/Profile';
-import Clubs from './pages/Clubs';
-import ClubDetail from './pages/ClubDetail'; 
-import OrgDashboard from './pages/OrgDashboard';
-import CreateEvent from './pages/CreateEvent';
-import EditEvent from './pages/EditEvent';
-import OrgEventDetail from './pages/OrgEventDetail'; 
-import OrgFeedback from './pages/OrgFeedback';
-import AdminDashboard from './pages/AdminDashboard';
-import ManageOrganizers from './pages/ManageOrganizers';
-import PasswordResetRequests from './pages/PasswordResetRequests'; 
-import TeamDashboard from './pages/TeamDashboard';
-import TeamChat from './pages/TeamChat';
-import QRScanner from './pages/QRScanner';
-import EventFeedback from './pages/EventFeedback';
+// Essential
+import Login from './pages/essential/Login';
+import Register from './pages/essential/Register';
+// Admin
+import AdminDashboard from './pages/admin/AdminDashboard';
+import ManageOrganizers from './pages/admin/ManageOrganizers';
+import PasswordResetRequests from './pages/admin/PasswordResetRequests';
+// Organizer
+import OrgDashboard from './pages/organizer/OrgDashboard';
+import OrgEventDetail from './pages/organizer/OrgEventDetail';
+import OrgFeedback from './pages/organizer/OrgFeedback';
+import CreateEvent from './pages/organizer/CreateEvent';
+import EditEvent from './pages/organizer/EditEvent';
+import QRScanner from './pages/organizer/QRScanner';
+// Participant
+import Onboarding from './pages/participant/Onboarding';
+import BrowseEvents from './pages/participant/BrowseEvents';
+import EventDetails from './pages/participant/EventDetails';
+import Ticket from './pages/participant/Ticket';
+import Dashboard from './pages/participant/Dashboard';
+import Profile from './pages/participant/Profile';
+import TeamDashboard from './pages/participant/TeamDashboard';
+import TeamChat from './pages/participant/TeamChat';
+// Misc
+import Clubs from './pages/participant/Clubs';
+import ClubDetail from './pages/participant/ClubDetail';
+import EventFeedback from './pages/participant/EventFeedback';
+// Shared components / context
+import Navbar from './pages/shared/Navbar';
+import ProtectedRoute from './pages/shared/ProtectedRoute';
+import { AuthProvider } from './pages/shared/AuthContext';
 
 const Home = () => (
   <div style={{ padding: '20px' }}>

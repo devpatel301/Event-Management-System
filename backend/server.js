@@ -21,18 +21,28 @@ app.use(express.json());
 connectDB();
 setupEmailService();
 
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/events', require('./routes/events'));
-app.use('/api/registrations', require('./routes/registrations'));
-app.use('/api/organizers', require('./routes/organizers'));
-app.use('/api/admin', require('./routes/admin'));
-app.use('/api/teams', require('./routes/teams'));
-app.use('/api/attendance', require('./routes/attendance'));
-app.use('/api/password-resets', require('./routes/passwordResets'));
-app.use('/api/chat', require('./routes/chat'));
-app.use('/api/feedback', require('./routes/feedback'));
-app.use('/api/upload', require('./routes/upload'));
+// Essential
+// Essential
+app.use('/api/auth', require('./essential/auth'));
+
+// Admin
+app.use('/api/admin', require('./admin/admin'));
+app.use('/api/organizers', require('./admin/organizers'));
+app.use('/api/password-resets', require('./admin/passwordResets'));
+
+// Organizer
+app.use('/api/events', require('./organizer/events'));
+app.use('/api/attendance', require('./organizer/attendance'));
+
+// Participant
+app.use('/api/users', require('./participant/users'));
+app.use('/api/registrations', require('./participant/registrations'));
+
+// Misc
+app.use('/api/teams', require('./misc/teams'));
+app.use('/api/chat', require('./misc/chat'));
+app.use('/api/feedback', require('./misc/feedback'));
+app.use('/api/upload', require('./misc/upload'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/', (req, res) => {
