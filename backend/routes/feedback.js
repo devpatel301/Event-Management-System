@@ -14,11 +14,7 @@ router.get('/organizer/all', protect, async (req, res) => {
 
         const now = new Date();
         const events = await Event.find({
-            organizer: req.user.id,
-            $or: [
-                { status: { $in: ['Completed', 'Closed'] } },
-                { endDate: { $lt: now } }
-            ]
+            organizer: req.user.id
         }).select('_id name');
         const eventIds = events.map(e => e._id);
         const eventMap = Object.fromEntries(events.map(e => [e._id.toString(), e.name]));
